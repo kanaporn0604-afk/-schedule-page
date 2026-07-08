@@ -1,3 +1,6 @@
+นี่คือโค้ดทั้งหมด กดที่มุมขวาบนของกล่องโค้ดเพื่อคัดลอกได้เลยครับ
+
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -314,4 +317,169 @@ const PEOPLE = [
   { label: "— เลือกผู้เข้าร่วม —", cls: "p-default" },
   { label: "ผอ.ประทิน", cls: "p-1" },
   { label: "คุณสุนิสา", cls: "p-6" },
-  { label: "คุณอารรัตน์ นวก.", cls: "p-
+  { label: "คุณอารีรัตน์ นวก.", cls: "p-3" },
+  { label: "คุณธนดล", cls: "p-4" },
+  { label: "คุณธีรพล", cls: "p-5" },
+  { label: "คุณสุวรรณ", cls: "p-2" },
+  { label: "รอมอบหมาย", cls: "p-2" },
+];
+
+const STORAGE_KEY = "schedule-rows-v1";
+
+const defaultRows = [
+  { date: "", time: "", place: "", topic: "", person: "", note: "" },
+  { date: "", time: "", place: "", topic: "", person: "", note: "" },
+  { date: "", time: "", place: "", topic: "", person: "", note: "" },
+  { date: "", time: "", place: "", topic: "", person: "", note: "" },
+  { date: "", time: "", place: "", topic: "", person: "", note: "" },
+];
+
+function loadRows(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultRows;
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed) && parsed.length) return parsed;
+    return defaultRows;
+  }catch(e){
+    console.error("โหลดข้อมูลไม่สำเร็จ", e);
+    return defaultRows;
+  }
+}
+
+function saveRows(){
+  try{
+    const rows = [];
+    tbody.querySelectorAll('tr').forEach(tr => {
+      rows.push({
+        date: tr.querySelector('.col-date [contenteditable]').innerText,
+        time: tr.querySelector('.col-time [contenteditable]').innerText,
+        place: tr.querySelector('.col-place [contenteditable]').innerText,
+        topic: tr.querySelector('.col-topic [contenteditable]').innerText,
+        person: tr.querySelector('.col-people select').value,
+        note: tr.querySelector('.col-note [contenteditable]').innerText,
+      });
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(rows));
+  }catch(e){
+    console.error("บันทึกข้อมูลไม่สำเร็จ", e);
+  }
+}
+
+const initialRows = loadRows();
+
+const tbody = document.querySelector('#scheduleTable tbody');
+let rowCount = 0;
+
+function personClass(label){
+  const p = PEOPLE.find(p => p.label === label);
+  return p ? p.cls : "p-default";
+}
+
+function buildSelect(selected){
+  const sel = document.createElement('select');
+  sel.className = 'person-select ' + personClass(selected || "");
+  PEOPLE.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.label === PEOPLE[0].label ? "" : p.label;
+    opt.textContent = p.label;
+    if (selected === p.label || (!selected && p.label === PEOPLE[0].label)) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  sel.addEventListener('change', () => {
+    PEOPLE.forEach(p => sel.classList.remove(p.cls));
+    sel.classList.add(personClass(sel.value));
+    saveRows();
+  });
+  return sel;
+}
+
+function addRow(data){
+  data = data || { date:"", time:"", place:"", topic:"", person:"", note:"" };
+  rowCount++;
+  const tr = document.createElement('tr');
+
+  const tdNo = document.createElement('td');
+  tdNo.className = 'col-no';
+  tdNo.textContent = rowCount;
+  tr.appendChild(tdNo);
+
+  const tdDate = document.createElement('td');
+  tdDate.className = 'col-date';
+  tdDate.innerHTML = `<div contenteditable="true">${data.date}</div>`;
+  tr.appendChild(tdDate);
+
+  const tdTime = document.createElement('td');
+  tdTime.className = 'col-time';
+  tdTime.innerHTML = `<div contenteditable="true">${data.time}</div>`;
+  tr.appendChild(tdTime);
+
+  const tdPlace = document.createElement('td');
+  tdPlace.className = 'col-place';
+  tdPlace.innerHTML = `<div contenteditable="true">${data.place}</div>`;
+  tr.appendChild(tdPlace);
+
+  const tdTopic = document.createElement('td');
+  tdTopic.className = 'col-topic';
+  tdTopic.innerHTML = `<div contenteditable="true">${data.topic}</div>`;
+  tr.appendChild(tdTopic);
+
+  const tdPeople = document.createElement('td');
+  tdPeople.className = 'col-people';
+  tdPeople.appendChild(buildSelect(data.person));
+  tr.appendChild(tdPeople);
+
+  const tdNote = document.createElement('td');
+  tdNote.className = 'col-note';
+  tdNote.innerHTML = `<div contenteditable="true">${data.note || ""}</div>`;
+  tr.appendChild(tdNote);
+
+  const tdDel = document.createElement('td');
+  tdDel.className = 'col-del';
+  const delBtn = document.createElement('button');
+  delBtn.className = 'del-btn';
+  delBtn.innerHTML = '✕';
+  delBtn.onclick = () => { tr.remove(); renumber(); saveRows(); };
+  tdDel.appendChild(delBtn);
+  tr.appendChild(tdDel);
+
+  tbody.appendChild(tr);
+
+  tr.querySelectorAll('[contenteditable]').forEach(el => {
+    el.addEventListener('blur', saveRows);
+  });
+
+  saveRows();
+}
+
+function renumber(){
+  const rows = tbody.querySelectorAll('tr');
+  rowCount = 0;
+  rows.forEach(r => {
+    rowCount++;
+    r.querySelector('.col-no').textContent = rowCount;
+  });
+}
+
+function buildLegend(){
+  const legend = document.getElementById('legend');
+  const seen = new Set();
+  PEOPLE.slice(1).forEach(p => {
+    if (seen.has(p.label)) return;
+    seen.add(p.label);
+    const el = document.createElement('span');
+    el.className = p.cls;
+    el.textContent = p.label;
+    legend.appendChild(el);
+  });
+}
+
+initialRows.forEach(addRow);
+buildLegend();
+</script>
+
+</body>
+</html>
+```
+
+คัดลอกทั้งหมดนี้แล้วเอาไปวางแทนที่ไฟล์ `index.html` เดิมใน GitHub (เปิดไฟล์เดิม → กด Edit → เลือกลบของเก่าทั้งหมด → วางโค้ดใหม่ → Commit) ได้เลยครับ
