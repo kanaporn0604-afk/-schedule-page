@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>ระบบนัดตรวจเรือ</title>
 
 <style>
@@ -27,12 +26,11 @@ header {
 
 header h1 {
     margin: 0 0 8px;
-    font-size: 27px;
+    font-size: 28px;
 }
 
 header p {
     margin: 0;
-    opacity: .9;
 }
 
 .container {
@@ -46,7 +44,7 @@ header p {
     border-radius: 18px;
     padding: 22px;
     margin-bottom: 20px;
-    box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
 }
 
 h2 {
@@ -56,11 +54,11 @@ h2 {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
 }
 
-.form-group label {
+label {
     display: block;
     font-weight: bold;
     margin-bottom: 7px;
@@ -82,61 +80,54 @@ input:focus {
 .buttons {
     display: flex;
     gap: 10px;
-    margin-top: 18px;
     flex-wrap: wrap;
+    margin-top: 18px;
 }
 
 button {
-    border: none;
+    border: 0;
     border-radius: 10px;
-    padding: 13px 20px;
+    padding: 13px 18px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
 }
 
-button:disabled {
-    opacity: .6;
-    cursor: not-allowed;
-}
-
-.btn-primary {
+.primary {
     background: #0b4f78;
     color: white;
 }
 
-.btn-secondary {
+.secondary {
     background: #e7f0f6;
     color: #0b4f78;
 }
 
-.btn-success {
+.success {
     background: #198754;
     color: white;
 }
 
-.btn-warning {
+.warning {
     background: #f0ad00;
     color: white;
 }
 
-.btn-danger {
+.danger {
     background: #dc3545;
     color: white;
-    padding: 8px 12px;
 }
 
-.btn-edit {
+.edit {
     background: #0d6efd;
     color: white;
-    padding: 8px 12px;
 }
 
 .search {
     margin-bottom: 15px;
 }
 
-.table-container {
+.table-wrap {
     overflow-x: auto;
 }
 
@@ -178,40 +169,54 @@ tr:hover {
 }
 
 .status {
+    display: none;
     margin-top: 15px;
     padding: 12px;
     border-radius: 10px;
-    display: none;
     font-weight: bold;
 }
 
-.status.success {
+.status.show {
     display: block;
+}
+
+.status.ok {
     background: #e8f7ee;
     color: #19733b;
 }
 
 .status.error {
-    display: block;
     background: #fdecec;
     color: #b42318;
 }
 
-.status.info {
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: white;
+    border-radius: 15px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,.06);
+}
+
+.stat-number {
     display: block;
-    background: #e8f4ff;
+    font-size: 26px;
+    font-weight: bold;
     color: #0b4f78;
+    margin-top: 5px;
 }
 
-.backup-box {
+.action {
     display: flex;
-    gap: 10px;
+    gap: 5px;
     flex-wrap: wrap;
-}
-
-.backup-box button {
-    flex: 1;
-    min-width: 180px;
 }
 
 .editing {
@@ -232,34 +237,7 @@ tr:hover {
     display: block;
 }
 
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.stat {
-    background: #f3f7fb;
-    padding: 15px;
-    border-radius: 12px;
-    text-align: center;
-}
-
-.stat strong {
-    display: block;
-    color: #0b4f78;
-    font-size: 25px;
-    margin-top: 5px;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-}
-
-@media (max-width: 650px) {
+@media(max-width:650px) {
 
     .container {
         padding: 12px;
@@ -285,16 +263,16 @@ tr:hover {
         width: 100%;
     }
 
-    .action-buttons {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .action {
         flex-direction: column;
     }
 
-    .action-buttons button {
+    .action button {
         width: 100%;
-    }
-
-    .stats {
-        grid-template-columns: 1fr;
     }
 }
 </style>
@@ -309,208 +287,220 @@ tr:hover {
 
 <div class="container">
 
-<!-- FORM -->
-<div class="card" id="formCard">
+    <!-- FORM -->
+    <div class="card" id="formCard">
 
-    <div class="edit-title">
-        ✏️ กำลังแก้ไขรายการนัดตรวจเรือ
-    </div>
-
-    <h2 id="formTitle">📋 เพิ่มรายการนัดตรวจเรือ</h2>
-
-    <div class="grid">
-
-        <div class="form-group">
-            <label>วันนัดตรวจเรือ</label>
-            <input type="date" id="date">
+        <div class="edit-title">
+            ✏️ กำลังแก้ไขรายการนัดตรวจเรือ
         </div>
 
-        <div class="form-group">
-            <label>เวลา</label>
-            <input type="time" id="time">
+        <h2 id="formTitle">
+            📋 เพิ่มรายการนัดตรวจเรือ
+        </h2>
+
+        <div class="grid">
+
+            <div>
+                <label>วันนัดตรวจเรือ</label>
+                <input type="date" id="date">
+            </div>
+
+            <div>
+                <label>เวลา</label>
+                <input type="time" id="time">
+            </div>
+
+            <div>
+                <label>เรือชื่อ</label>
+                <input
+                    type="text"
+                    id="boat"
+                    placeholder="เช่น เรือโชคดี 1"
+                >
+            </div>
+
+            <div>
+                <label>สถานที่จอดเรือ</label>
+                <input
+                    type="text"
+                    id="place"
+                    placeholder="ระบุสถานที่จอดเรือ"
+                >
+            </div>
+
+            <div>
+                <label>อำเภอ</label>
+                <input
+                    type="text"
+                    id="district"
+                    placeholder="เช่น เมืองชุมพร"
+                >
+            </div>
+
+            <div>
+                <label>เบอร์โทร</label>
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="08X-XXX-XXXX"
+                >
+            </div>
+
         </div>
 
-        <div class="form-group">
-            <label>เรือชื่อ</label>
-            <input
-                type="text"
-                id="boat"
-                placeholder="เช่น เรือโชคดี 1"
+        <div class="buttons">
+
+            <button
+                class="primary"
+                id="saveBtn"
+                onclick="saveAppointment()"
             >
-        </div>
+                ＋ บันทึกนัดตรวจเรือ
+            </button>
 
-        <div class="form-group">
-            <label>สถานที่จอดเรือ</label>
-            <input
-                type="text"
-                id="place"
-                placeholder="ระบุสถานที่จอดเรือ"
+            <button
+                class="secondary"
+                onclick="clearForm()"
             >
-        </div>
+                ล้างข้อมูล
+            </button>
 
-        <div class="form-group">
-            <label>อำเภอ</label>
-            <input
-                type="text"
-                id="district"
-                placeholder="เช่น เมืองชุมพร"
+            <button
+                class="warning"
+                id="cancelBtn"
+                onclick="cancelEdit()"
+                style="display:none"
             >
+                ยกเลิกการแก้ไข
+            </button>
+
         </div>
 
-        <div class="form-group">
-            <label>เบอร์โทร</label>
-            <input
-                type="tel"
-                id="phone"
-                placeholder="08X-XXX-XXXX"
+        <div id="status" class="status"></div>
+
+    </div>
+
+
+    <!-- STATS -->
+    <div class="stats">
+
+        <div class="stat">
+            📋 นัดทั้งหมด
+            <span
+                class="stat-number"
+                id="total"
+            >0</span>
+        </div>
+
+        <div class="stat">
+            📅 นัดวันนี้
+            <span
+                class="stat-number"
+                id="today"
+            >0</span>
+        </div>
+
+        <div class="stat">
+            🚢 จำนวนเรือ
+            <span
+                class="stat-number"
+                id="boats"
+            >0</span>
+        </div>
+
+    </div>
+
+
+    <!-- LIST -->
+    <div class="card">
+
+        <h2>
+            📅 รายการนัดตรวจเรือ
+            <span
+                class="badge"
+                id="count"
             >
-        </div>
-
-    </div>
-
-    <div class="buttons">
-
-        <button
-            class="btn-primary"
-            id="saveButton"
-            onclick="addAppointment()"
-        >
-            ＋ บันทึกนัดตรวจเรือ
-        </button>
-
-        <button
-            class="btn-secondary"
-            onclick="clearForm()"
-        >
-            ล้างข้อมูล
-        </button>
-
-        <button
-            class="btn-warning"
-            id="cancelEditButton"
-            onclick="cancelEdit()"
-            style="display:none;"
-        >
-            ยกเลิกการแก้ไข
-        </button>
-
-    </div>
-
-    <div id="status" class="status"></div>
-
-</div>
-
-
-<!-- SUMMARY -->
-<div class="stats">
-
-    <div class="stat">
-        📋 นัดทั้งหมด
-        <strong id="totalCount">0</strong>
-    </div>
-
-    <div class="stat">
-        📅 นัดวันนี้
-        <strong id="todayCount">0</strong>
-    </div>
-
-    <div class="stat">
-        🚢 จำนวนเรือ
-        <strong id="boatCount">0</strong>
-    </div>
-
-</div>
-
-
-<!-- LIST -->
-<div class="card">
-
-    <h2>
-        📅 รายการนัดตรวจเรือ
-        <span class="badge" id="count">
-            0 รายการ
-        </span>
-    </h2>
-
-    <input
-        class="search"
-        type="search"
-        id="search"
-        placeholder="🔎 ค้นหาชื่อเรือ / อำเภอ / สถานที่ / เบอร์โทร"
-        oninput="render()"
-    >
-
-    <div class="table-container">
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>วันนัด</th>
-                    <th>เวลา</th>
-                    <th>ชื่อเรือ</th>
-                    <th>สถานที่จอดเรือ</th>
-                    <th>อำเภอ</th>
-                    <th>เบอร์โทร</th>
-                    <th>จัดการ</th>
-                </tr>
-
-            </thead>
-
-            <tbody id="tbody"></tbody>
-
-        </table>
-
-    </div>
-
-</div>
-
-
-<!-- BACKUP -->
-<div class="card">
-
-    <h2>💾 สำรองข้อมูล</h2>
-
-    <p>
-        ข้อมูลจะถูกเก็บไว้ในเบราว์เซอร์ของเครื่องนี้
-        แนะนำให้สำรองข้อมูลเป็นระยะ
-    </p>
-
-    <div class="backup-box">
-
-        <button
-            class="btn-success"
-            onclick="exportCSV()"
-        >
-            📊 ส่งออก Excel / CSV
-        </button>
-
-        <button
-            class="btn-primary"
-            onclick="backupJSON()"
-        >
-            💾 สำรองข้อมูล
-        </button>
-
-        <button
-            class="btn-secondary"
-            onclick="document.getElementById('importFile').click()"
-        >
-            📂 นำเข้าข้อมูล
-        </button>
+                0 รายการ
+            </span>
+        </h2>
 
         <input
-            type="file"
-            id="importFile"
-            accept=".json"
-            style="display:none"
-            onchange="importJSON(event)"
+            class="search"
+            type="search"
+            id="search"
+            placeholder="🔎 ค้นหาชื่อเรือ / อำเภอ / สถานที่ / เบอร์โทร"
+            oninput="render()"
         >
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>วันนัด</th>
+                        <th>เวลา</th>
+                        <th>ชื่อเรือ</th>
+                        <th>สถานที่จอดเรือ</th>
+                        <th>อำเภอ</th>
+                        <th>เบอร์โทร</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tbody"></tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
-</div>
+
+    <!-- BACKUP -->
+    <div class="card">
+
+        <h2>💾 จัดการข้อมูล</h2>
+
+        <p>
+            ข้อมูลจะถูกเก็บไว้ในเบราว์เซอร์ของเครื่องนี้
+            รีเฟรชหรือปิดเว็บไซต์แล้วข้อมูลยังอยู่
+        </p>
+
+        <div class="buttons">
+
+            <button
+                class="success"
+                onclick="exportCSV()"
+            >
+                📊 ดาวน์โหลด Excel
+            </button>
+
+            <button
+                class="primary"
+                onclick="backupData()"
+            >
+                💾 สำรองข้อมูล
+            </button>
+
+            <button
+                class="secondary"
+                onclick="document.getElementById('fileInput').click()"
+            >
+                📂 กู้คืนข้อมูล
+            </button>
+
+            <input
+                type="file"
+                id="fileInput"
+                accept=".json"
+                style="display:none"
+                onchange="restoreData(event)"
+            >
+
+        </div>
+
+    </div>
 
 </div>
 
@@ -518,41 +508,49 @@ tr:hover {
 <script>
 
 /* =====================================================
-   DATABASE
+   ระบบเก็บข้อมูลในเครื่อง
+   ไม่มี Google Sheets
+   ไม่มี Apps Script
+   ไม่มี API
 ===================================================== */
 
-const KEY = "boatInspectionAppointments";
+const STORAGE_KEY = "boat_inspection_data_v1";
 
-let appointments = [];
+let data = [];
 
 let editingId = null;
 
 
 /* =====================================================
-   LOAD
+   โหลดข้อมูล
 ===================================================== */
 
-function loadLocalData() {
+function loadData() {
 
     try {
 
         const saved =
-            localStorage.getItem(KEY);
+            localStorage.getItem(STORAGE_KEY);
 
-        appointments =
-            saved
-            ? JSON.parse(saved)
-            : [];
+        if (saved) {
 
-        if (!Array.isArray(appointments)) {
-            appointments = [];
+            data = JSON.parse(saved);
+
+        } else {
+
+            data = [];
+
         }
 
-    } catch(error) {
+        if (!Array.isArray(data)) {
 
-        appointments = [];
+            data = [];
 
-        console.error(error);
+        }
+
+    } catch (error) {
+
+        data = [];
 
     }
 
@@ -560,24 +558,24 @@ function loadLocalData() {
 
 
 /* =====================================================
-   SAVE
+   บันทึกข้อมูล
 ===================================================== */
 
-function saveLocalData() {
+function saveData() {
 
     localStorage.setItem(
-        KEY,
-        JSON.stringify(appointments)
+        STORAGE_KEY,
+        JSON.stringify(data)
     );
 
 }
 
 
 /* =====================================================
-   ADD / EDIT
+   บันทึกนัด
 ===================================================== */
 
-function addAppointment() {
+function saveAppointment() {
 
     const date =
         document.getElementById("date").value;
@@ -617,18 +615,20 @@ function addAppointment() {
     }
 
 
-    /* EDIT */
+    /* แก้ไข */
 
     if (editingId !== null) {
 
         const index =
-            appointments.findIndex(
-                item => item.id === editingId
+            data.findIndex(
+                item =>
+                item.id === editingId
             );
+
 
         if (index !== -1) {
 
-            appointments[index] = {
+            data[index] = {
 
                 id: editingId,
 
@@ -648,22 +648,25 @@ function addAppointment() {
 
         }
 
-        saveLocalData();
+
+        saveData();
 
         cancelEdit();
 
         render();
 
+
         showStatus(
-            "✅ แก้ไขรายการเรียบร้อยแล้ว",
-            "success"
+            "✅ แก้ไขข้อมูลเรียบร้อยแล้ว",
+            "ok"
         );
 
         return;
+
     }
 
 
-    /* ADD */
+    /* เพิ่มรายการใหม่ */
 
     const item = {
 
@@ -691,12 +694,11 @@ function addAppointment() {
     };
 
 
-    appointments.push(item);
-
+    data.push(item);
 
     sortData();
 
-    saveLocalData();
+    saveData();
 
     clearForm();
 
@@ -705,30 +707,27 @@ function addAppointment() {
 
     showStatus(
         "✅ บันทึกนัดตรวจเรือเรียบร้อยแล้ว",
-        "success"
+        "ok"
     );
 
 }
 
 
 /* =====================================================
-   SORT
+   เรียงข้อมูล
 ===================================================== */
 
 function sortData() {
 
-    appointments.sort(
-        (a,b) => {
+    data.sort(
+        function(a,b) {
 
-            const aKey =
-                String(a.date) +
-                String(a.time);
-
-            const bKey =
-                String(b.date) +
-                String(b.time);
-
-            return aKey.localeCompare(bKey);
+            return (
+                (a.date + a.time)
+                .localeCompare(
+                    b.date + b.time
+                )
+            );
 
         }
     );
@@ -737,7 +736,7 @@ function sortData() {
 
 
 /* =====================================================
-   CLEAR
+   ล้างฟอร์ม
 ===================================================== */
 
 function clearForm() {
@@ -758,15 +757,17 @@ function clearForm() {
 
 
 /* =====================================================
-   EDIT
+   แก้ไข
 ===================================================== */
 
 function editItem(id) {
 
     const item =
-        appointments.find(
-            item => item.id === id
+        data.find(
+            item =>
+            item.id === id
         );
+
 
     if (!item) return;
 
@@ -802,12 +803,12 @@ function editItem(id) {
         "✏️ แก้ไขรายการนัดตรวจเรือ";
 
 
-    document.getElementById("saveButton")
+    document.getElementById("saveBtn")
         .textContent =
         "💾 บันทึกการแก้ไข";
 
 
-    document.getElementById("cancelEditButton")
+    document.getElementById("cancelBtn")
         .style.display =
         "block";
 
@@ -821,7 +822,7 @@ function editItem(id) {
 
 
 /* =====================================================
-   CANCEL EDIT
+   ยกเลิกแก้ไข
 ===================================================== */
 
 function cancelEdit() {
@@ -840,12 +841,12 @@ function cancelEdit() {
         "📋 เพิ่มรายการนัดตรวจเรือ";
 
 
-    document.getElementById("saveButton")
+    document.getElementById("saveBtn")
         .textContent =
         "＋ บันทึกนัดตรวจเรือ";
 
 
-    document.getElementById("cancelEditButton")
+    document.getElementById("cancelBtn")
         .style.display =
         "none";
 
@@ -853,53 +854,55 @@ function cancelEdit() {
 
 
 /* =====================================================
-   DELETE
+   ลบ
 ===================================================== */
 
-function removeItem(id) {
+function deleteItem(id) {
 
     const item =
-        appointments.find(
-            item => item.id === id
+        data.find(
+            item =>
+            item.id === id
         );
 
 
     if (!item) return;
 
 
-    const confirmDelete =
+    const answer =
         confirm(
-            "ต้องการลบรายการนี้ใช่หรือไม่?\n\n" +
+            "ต้องการลบรายการนี้หรือไม่?\n\n" +
             "เรือ: " + item.boat +
             "\nวันนัด: " + thaiDate(item.date) +
             "\nเวลา: " + item.time
         );
 
 
-    if (!confirmDelete) return;
+    if (!answer) return;
 
 
-    appointments =
-        appointments.filter(
-            item => item.id !== id
+    data =
+        data.filter(
+            item =>
+            item.id !== id
         );
 
 
-    saveLocalData();
+    saveData();
 
     render();
 
 
     showStatus(
-        "ลบรายการเรียบร้อยแล้ว",
-        "success"
+        "🗑️ ลบรายการเรียบร้อยแล้ว",
+        "ok"
     );
 
 }
 
 
 /* =====================================================
-   THAI DATE
+   วันที่ไทย
 ===================================================== */
 
 function thaiDate(date) {
@@ -911,9 +914,6 @@ function thaiDate(date) {
             date + "T00:00:00"
         );
 
-    if (isNaN(d.getTime())) {
-        return date;
-    }
 
     return d.toLocaleDateString(
         "th-TH",
@@ -928,25 +928,31 @@ function thaiDate(date) {
 
 
 /* =====================================================
-   SECURITY
+   ป้องกัน HTML
 ===================================================== */
 
 function esc(text) {
 
-    return String(text)
+    return String(text ?? "")
         .replace(
             /[&<>"']/g,
-            function(m) {
+            function(char) {
 
-                return {
+                const map = {
 
-                    "&":"&amp;",
-                    "<":"&lt;",
-                    ">":"&gt;",
-                    '"':"&quot;",
-                    "'":"&#039;"
+                    "&": "&amp;",
 
-                }[m];
+                    "<": "&lt;",
+
+                    ">": "&gt;",
+
+                    '"': "&quot;",
+
+                    "'": "&#039;"
+
+                };
+
+                return map[char];
 
             }
         );
@@ -955,7 +961,7 @@ function esc(text) {
 
 
 /* =====================================================
-   DISPLAY
+   แสดงรายการ
 ===================================================== */
 
 function render() {
@@ -969,17 +975,22 @@ function render() {
 
 
     const filtered =
-        appointments.filter(
-            item => {
+        data.filter(
+            function(item) {
 
                 return [
 
-                    item.boat,
-                    item.place,
-                    item.district,
-                    item.phone,
                     item.date,
-                    item.time
+
+                    item.time,
+
+                    item.boat,
+
+                    item.place,
+
+                    item.district,
+
+                    item.phone
 
                 ]
                 .join(" ")
@@ -995,58 +1006,63 @@ function render() {
         filtered.length + " รายการ";
 
 
-    document.getElementById("totalCount")
+    document.getElementById("total")
         .textContent =
-        appointments.length;
+        data.length;
 
 
-    /* TODAY */
+    /* วันนี้ */
 
-    const today =
+    const now =
         new Date();
 
-    const yyyy =
-        today.getFullYear();
 
-    const mm =
+    const year =
+        now.getFullYear();
+
+
+    const month =
         String(
-            today.getMonth() + 1
+            now.getMonth() + 1
         ).padStart(2,"0");
 
-    const dd =
+
+    const day =
         String(
-            today.getDate()
+            now.getDate()
         ).padStart(2,"0");
 
-    const todayString =
-        yyyy + "-" + mm + "-" + dd;
+
+    const today =
+        year +
+        "-" +
+        month +
+        "-" +
+        day;
 
 
-    const todayAppointments =
-        appointments.filter(
-            item =>
-            item.date === todayString
-        );
-
-
-    document.getElementById("todayCount")
+    document.getElementById("today")
         .textContent =
-        todayAppointments.length;
+        data.filter(
+            item =>
+            item.date === today
+        ).length;
 
 
-    /* UNIQUE BOATS */
+    /* จำนวนเรือ */
 
-    const uniqueBoats =
+    const boats =
         new Set(
-            appointments.map(
-                item => item.boat
+            data.map(
+                item =>
+                item.boat
             )
         );
 
 
-    document.getElementById("boatCount")
+    document.getElementById("boats")
         .textContent =
-        uniqueBoats.size;
+        boats.size;
 
 
     const tbody =
@@ -1063,7 +1079,7 @@ function render() {
                 colspan="7"
                 class="empty"
             >
-                ยังไม่มีรายการนัดตรวจเรือ
+                📭 ยังไม่มีรายการนัดตรวจเรือ
             </td>
 
         </tr>
@@ -1076,62 +1092,67 @@ function render() {
 
 
     tbody.innerHTML =
-        filtered.map(
-            item => `
+        filtered
+        .map(
+            function(item) {
 
-        <tr>
+                return `
 
-            <td>
-                ${thaiDate(item.date)}
-            </td>
+                <tr>
 
-            <td>
-                ${esc(item.time)}
-            </td>
+                    <td>
+                        ${thaiDate(item.date)}
+                    </td>
 
-            <td>
-                <b>
-                    ${esc(item.boat)}
-                </b>
-            </td>
+                    <td>
+                        ${esc(item.time)} น.
+                    </td>
 
-            <td>
-                ${esc(item.place)}
-            </td>
+                    <td>
+                        <b>
+                            ${esc(item.boat)}
+                        </b>
+                    </td>
 
-            <td>
-                ${esc(item.district)}
-            </td>
+                    <td>
+                        ${esc(item.place)}
+                    </td>
 
-            <td>
-                ${esc(item.phone)}
-            </td>
+                    <td>
+                        ${esc(item.district)}
+                    </td>
 
-            <td>
+                    <td>
+                        ${esc(item.phone)}
+                    </td>
 
-                <div class="action-buttons">
+                    <td>
 
-                    <button
-                        class="btn-edit"
-                        onclick="editItem(${item.id})"
-                    >
-                        ✏️ แก้ไข
-                    </button>
+                        <div class="action">
 
-                    <button
-                        class="btn-danger"
-                        onclick="removeItem(${item.id})"
-                    >
-                        🗑️ ลบ
-                    </button>
+                            <button
+                                class="edit"
+                                onclick="editItem(${item.id})"
+                            >
+                                ✏️ แก้ไข
+                            </button>
 
-                </div>
+                            <button
+                                class="danger"
+                                onclick="deleteItem(${item.id})"
+                            >
+                                🗑️ ลบ
+                            </button>
 
-            </td>
+                        </div>
 
-        </tr>
+                    </td>
 
-        `
+                </tr>
+
+                `;
+
+            }
         )
         .join("");
 
@@ -1139,7 +1160,7 @@ function render() {
 
 
 /* =====================================================
-   STATUS
+   แจ้งเตือน
 ===================================================== */
 
 function showStatus(message,type) {
@@ -1153,7 +1174,7 @@ function showStatus(message,type) {
 
 
     status.className =
-        "status " + type;
+        "status show " + type;
 
 
     setTimeout(
@@ -1163,22 +1184,22 @@ function showStatus(message,type) {
                 "status";
 
         },
-        4000
+        3500
     );
 
 }
 
 
 /* =====================================================
-   EXPORT CSV
+   ดาวน์โหลด CSV เปิดใน Excel
 ===================================================== */
 
 function exportCSV() {
 
-    if (appointments.length === 0) {
+    if (data.length === 0) {
 
         alert(
-            "ยังไม่มีข้อมูลสำหรับส่งออก"
+            "ยังไม่มีข้อมูลสำหรับดาวน์โหลด"
         );
 
         return;
@@ -1189,36 +1210,37 @@ function exportCSV() {
     let csv =
         "\uFEFF";
 
+
     csv +=
         "วันนัดตรวจเรือ,เวลา,ชื่อเรือ,สถานที่จอดเรือ,อำเภอ,เบอร์โทร\n";
 
 
-    appointments.forEach(
-        item => {
+    data.forEach(
+        function(item) {
 
             csv += [
 
-                csvEscape(
+                csvValue(
                     thaiDate(item.date)
                 ),
 
-                csvEscape(
+                csvValue(
                     item.time
                 ),
 
-                csvEscape(
+                csvValue(
                     item.boat
                 ),
 
-                csvEscape(
+                csvValue(
                     item.place
                 ),
 
-                csvEscape(
+                csvValue(
                     item.district
                 ),
 
-                csvEscape(
+                csvValue(
                     item.phone
                 )
 
@@ -1256,31 +1278,24 @@ function exportCSV() {
 
     link.click();
 
-    document.body.removeChild(link);
+    link.remove();
 
     URL.revokeObjectURL(url);
 
 
     showStatus(
-        "📊 ส่งออกข้อมูลเรียบร้อยแล้ว",
-        "success"
+        "📊 ดาวน์โหลดข้อมูลเรียบร้อยแล้ว",
+        "ok"
     );
 
 }
 
 
-/* =====================================================
-   CSV ESCAPE
-===================================================== */
-
-function csvEscape(value) {
-
-    const text =
-        String(value ?? "");
-
+function csvValue(value) {
 
     return '"' +
-        text.replace(
+        String(value ?? "")
+        .replace(
             /"/g,
             '""'
         ) +
@@ -1290,12 +1305,12 @@ function csvEscape(value) {
 
 
 /* =====================================================
-   BACKUP JSON
+   สำรองข้อมูล JSON
 ===================================================== */
 
-function backupJSON() {
+function backupData() {
 
-    if (appointments.length === 0) {
+    if (data.length === 0) {
 
         alert(
             "ยังไม่มีข้อมูลสำหรับสำรอง"
@@ -1310,11 +1325,11 @@ function backupJSON() {
 
         version: 1,
 
-        createdAt:
+        date:
             new Date().toISOString(),
 
-        appointments:
-            appointments
+        data:
+            data
 
     };
 
@@ -1353,24 +1368,24 @@ function backupJSON() {
 
     link.click();
 
-    document.body.removeChild(link);
+    link.remove();
 
     URL.revokeObjectURL(url);
 
 
     showStatus(
         "💾 สำรองข้อมูลเรียบร้อยแล้ว",
-        "success"
+        "ok"
     );
 
 }
 
 
 /* =====================================================
-   IMPORT JSON
+   กู้คืนข้อมูล
 ===================================================== */
 
-function importJSON(event) {
+function restoreData(event) {
 
     const file =
         event.target.files[0];
@@ -1388,7 +1403,7 @@ function importJSON(event) {
 
             try {
 
-                const data =
+                const backup =
                     JSON.parse(
                         e.target.result
                     );
@@ -1398,15 +1413,16 @@ function importJSON(event) {
 
 
                 if (
-                    Array.isArray(data)
+                    Array.isArray(backup)
                 ) {
 
-                    imported = data;
+                    imported =
+                        backup;
 
                 } else {
 
                     imported =
-                        data.appointments;
+                        backup.data;
 
                 }
 
@@ -1416,82 +1432,30 @@ function importJSON(event) {
                 ) {
 
                     throw new Error(
-                        "รูปแบบไฟล์ไม่ถูกต้อง"
+                        "ไฟล์ไม่ถูกต้อง"
                     );
 
                 }
 
 
-                const cleaned =
-                    imported
-                    .filter(
-                        item =>
-                        item &&
-                        item.date &&
-                        item.time &&
-                        item.boat
-                    )
-                    .map(
-                        item => ({
-
-                            id:
-                                item.id ||
-                                Date.now() +
-                                Math.random(),
-
-                            date:
-                                item.date,
-
-                            time:
-                                item.time,
-
-                            boat:
-                                item.boat,
-
-                            place:
-                                item.place || "",
-
-                            district:
-                                item.district || "",
-
-                            phone:
-                                item.phone || ""
-
-                        })
-                    );
-
-
-                if (
-                    cleaned.length === 0
-                ) {
-
-                    alert(
-                        "ไม่พบข้อมูลที่สามารถนำเข้าได้"
-                    );
-
-                    return;
-
-                }
-
-
-                const replace =
+                const answer =
                     confirm(
-                        "ต้องการนำข้อมูลนี้มาแทนข้อมูลเดิมทั้งหมดหรือไม่?\n\n" +
-                        "กด OK = แทนข้อมูลเดิม\n" +
-                        "กด Cancel = เพิ่มต่อจากข้อมูลเดิม"
+                        "ต้องการนำข้อมูลสำรองมาแทนข้อมูลเดิมทั้งหมดหรือไม่?\n\n" +
+                        "กด ตกลง = แทนข้อมูลเดิม\n" +
+                        "กด ยกเลิก = เพิ่มข้อมูลต่อ"
                     );
 
 
-                if (replace) {
+                if (answer) {
 
-                    appointments =
-                        cleaned;
+                    data =
+                        imported;
 
                 } else {
 
-                    appointments =
-                        appointments.concat(
-                            cleaned
+                    data =
+                        data.concat(
+                            imported
                         );
 
                 }
@@ -1499,24 +1463,20 @@ function importJSON(event) {
 
                 sortData();
 
-                saveLocalData();
+                saveData();
 
                 render();
 
 
                 alert(
-                    "✅ นำเข้าข้อมูล " +
-                    cleaned.length +
-                    " รายการเรียบร้อยแล้ว"
+                    "✅ กู้คืนข้อมูลเรียบร้อยแล้ว"
                 );
 
 
             } catch(error) {
 
-                console.error(error);
-
                 alert(
-                    "❌ ไม่สามารถนำเข้าไฟล์ได้"
+                    "❌ ไม่สามารถอ่านไฟล์สำรองได้"
                 );
 
             }
@@ -1533,10 +1493,10 @@ function importJSON(event) {
 
 
 /* =====================================================
-   START
+   เริ่มระบบ
 ===================================================== */
 
-loadLocalData();
+loadData();
 
 sortData();
 
