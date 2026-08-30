@@ -32,11 +32,11 @@ header h1 {
 
 header p {
     margin: 0;
-    opacity: 0.9;
+    opacity: .9;
 }
 
 .container {
-    max-width: 1100px;
+    max-width: 1150px;
     margin: auto;
     padding: 20px;
 }
@@ -46,7 +46,7 @@ header p {
     border-radius: 18px;
     padding: 22px;
     margin-bottom: 20px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 5px 20px rgba(0,0,0,.08);
 }
 
 h2 {
@@ -56,7 +56,7 @@ h2 {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2,1fr);
     gap: 16px;
 }
 
@@ -95,6 +95,11 @@ button {
     cursor: pointer;
 }
 
+button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
 .btn-primary {
     background: #0b4f78;
     color: white;
@@ -105,8 +110,24 @@ button {
     color: #0b4f78;
 }
 
+.btn-success {
+    background: #198754;
+    color: white;
+}
+
+.btn-warning {
+    background: #f0ad00;
+    color: white;
+}
+
 .btn-danger {
     background: #dc3545;
+    color: white;
+    padding: 8px 12px;
+}
+
+.btn-edit {
+    background: #0d6efd;
     color: white;
     padding: 8px 12px;
 }
@@ -121,7 +142,7 @@ button {
 
 table {
     width: 100%;
-    min-width: 850px;
+    min-width: 950px;
     border-collapse: collapse;
 }
 
@@ -157,10 +178,11 @@ tr:hover {
 }
 
 .status {
-    margin-top: 12px;
-    padding: 10px;
+    margin-top: 15px;
+    padding: 12px;
     border-radius: 10px;
     display: none;
+    font-weight: bold;
 }
 
 .status.success {
@@ -173,6 +195,68 @@ tr:hover {
     display: block;
     background: #fdecec;
     color: #b42318;
+}
+
+.status.info {
+    display: block;
+    background: #e8f4ff;
+    color: #0b4f78;
+}
+
+.backup-box {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.backup-box button {
+    flex: 1;
+    min-width: 180px;
+}
+
+.editing {
+    border: 2px solid #f0ad00;
+}
+
+.edit-title {
+    display: none;
+    background: #fff4d6;
+    color: #765800;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.editing .edit-title {
+    display: block;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: #f3f7fb;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.stat strong {
+    display: block;
+    color: #0b4f78;
+    font-size: 25px;
+    margin-top: 5px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
 }
 
 @media (max-width: 650px) {
@@ -193,8 +277,24 @@ tr:hover {
         grid-template-columns: 1fr;
     }
 
+    .buttons {
+        flex-direction: column;
+    }
+
     button {
         width: 100%;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons button {
+        width: 100%;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
     }
 }
 </style>
@@ -203,318 +303,308 @@ tr:hover {
 <body>
 
 <header>
-
-<h1>🚢 ระบบนัดตรวจเรือ</h1>
-
-<p>
-ระบบบันทึกและตรวจสอบนัดตรวจเรือ
-</p>
-
+    <h1>🚢 ระบบนัดตรวจเรือ</h1>
+    <p>ระบบบันทึกและตรวจสอบนัดตรวจเรือ</p>
 </header>
-
 
 <div class="container">
 
-
 <!-- FORM -->
+<div class="card" id="formCard">
 
-<div class="card">
+    <div class="edit-title">
+        ✏️ กำลังแก้ไขรายการนัดตรวจเรือ
+    </div>
 
-<h2>📋 เพิ่มรายการนัดตรวจเรือ</h2>
+    <h2 id="formTitle">📋 เพิ่มรายการนัดตรวจเรือ</h2>
 
+    <div class="grid">
 
-<div class="grid">
+        <div class="form-group">
+            <label>วันนัดตรวจเรือ</label>
+            <input type="date" id="date">
+        </div>
 
+        <div class="form-group">
+            <label>เวลา</label>
+            <input type="time" id="time">
+        </div>
 
-<div class="form-group">
+        <div class="form-group">
+            <label>เรือชื่อ</label>
+            <input
+                type="text"
+                id="boat"
+                placeholder="เช่น เรือโชคดี 1"
+            >
+        </div>
 
-<label>วันนัดตรวจเรือ</label>
+        <div class="form-group">
+            <label>สถานที่จอดเรือ</label>
+            <input
+                type="text"
+                id="place"
+                placeholder="ระบุสถานที่จอดเรือ"
+            >
+        </div>
 
-<input
-type="date"
-id="date"
->
+        <div class="form-group">
+            <label>อำเภอ</label>
+            <input
+                type="text"
+                id="district"
+                placeholder="เช่น เมืองชุมพร"
+            >
+        </div>
 
-</div>
+        <div class="form-group">
+            <label>เบอร์โทร</label>
+            <input
+                type="tel"
+                id="phone"
+                placeholder="08X-XXX-XXXX"
+            >
+        </div>
 
+    </div>
 
-<div class="form-group">
+    <div class="buttons">
 
-<label>เวลา</label>
+        <button
+            class="btn-primary"
+            id="saveButton"
+            onclick="addAppointment()"
+        >
+            ＋ บันทึกนัดตรวจเรือ
+        </button>
 
-<input
-type="time"
-id="time"
->
+        <button
+            class="btn-secondary"
+            onclick="clearForm()"
+        >
+            ล้างข้อมูล
+        </button>
 
-</div>
+        <button
+            class="btn-warning"
+            id="cancelEditButton"
+            onclick="cancelEdit()"
+            style="display:none;"
+        >
+            ยกเลิกการแก้ไข
+        </button>
 
+    </div>
 
-<div class="form-group">
-
-<label>เรือชื่อ</label>
-
-<input
-type="text"
-id="boat"
-placeholder="เช่น เรือโชคดี 1"
->
-
-</div>
-
-
-<div class="form-group">
-
-<label>สถานที่จอดเรือ</label>
-
-<input
-type="text"
-id="place"
-placeholder="ระบุสถานที่จอดเรือ"
->
-
-</div>
-
-
-<div class="form-group">
-
-<label>อำเภอ</label>
-
-<input
-type="text"
-id="district"
-placeholder="เช่น เมืองชุมพร"
->
-
-</div>
-
-
-<div class="form-group">
-
-<label>เบอร์โทร</label>
-
-<input
-type="tel"
-id="phone"
-placeholder="08X-XXX-XXXX"
->
-
-</div>
-
-
-</div>
-
-
-<div class="buttons">
-
-<button
-class="btn-primary"
-onclick="addAppointment()"
->
-＋ บันทึกนัดตรวจเรือ
-</button>
-
-
-<button
-class="btn-secondary"
-onclick="clearForm()"
->
-ล้างข้อมูล
-</button>
+    <div id="status" class="status"></div>
 
 </div>
 
 
-<div id="status" class="status"></div>
+<!-- SUMMARY -->
+<div class="stats">
+
+    <div class="stat">
+        📋 นัดทั้งหมด
+        <strong id="totalCount">0</strong>
+    </div>
+
+    <div class="stat">
+        📅 นัดวันนี้
+        <strong id="todayCount">0</strong>
+    </div>
+
+    <div class="stat">
+        🚢 จำนวนเรือ
+        <strong id="boatCount">0</strong>
+    </div>
 
 </div>
-
 
 
 <!-- LIST -->
-
 <div class="card">
 
-<h2>
+    <h2>
+        📅 รายการนัดตรวจเรือ
+        <span class="badge" id="count">
+            0 รายการ
+        </span>
+    </h2>
 
-📅 รายการนัดตรวจเรือ
+    <input
+        class="search"
+        type="search"
+        id="search"
+        placeholder="🔎 ค้นหาชื่อเรือ / อำเภอ / สถานที่ / เบอร์โทร"
+        oninput="render()"
+    >
 
-<span
-class="badge"
-id="count"
->
-0 รายการ
-</span>
+    <div class="table-container">
 
-</h2>
+        <table>
 
+            <thead>
 
-<input
-class="search"
-type="search"
-id="search"
-placeholder="🔎 ค้นหาชื่อเรือ / อำเภอ / สถานที่ / เบอร์โทร"
-oninput="render()"
->
+                <tr>
+                    <th>วันนัด</th>
+                    <th>เวลา</th>
+                    <th>ชื่อเรือ</th>
+                    <th>สถานที่จอดเรือ</th>
+                    <th>อำเภอ</th>
+                    <th>เบอร์โทร</th>
+                    <th>จัดการ</th>
+                </tr>
 
+            </thead>
 
-<div class="table-container">
+            <tbody id="tbody"></tbody>
 
-<table>
+        </table>
 
-<thead>
+    </div>
 
-<tr>
-
-<th>วันนัด</th>
-
-<th>เวลา</th>
-
-<th>ชื่อเรือ</th>
-
-<th>สถานที่จอดเรือ</th>
-
-<th>อำเภอ</th>
-
-<th>เบอร์โทร</th>
-
-</tr>
-
-</thead>
+</div>
 
 
-<tbody id="tbody">
+<!-- BACKUP -->
+<div class="card">
 
-</tbody>
+    <h2>💾 สำรองข้อมูล</h2>
 
+    <p>
+        ข้อมูลจะถูกเก็บไว้ในเบราว์เซอร์ของเครื่องนี้
+        แนะนำให้สำรองข้อมูลเป็นระยะ
+    </p>
 
-</table>
+    <div class="backup-box">
+
+        <button
+            class="btn-success"
+            onclick="exportCSV()"
+        >
+            📊 ส่งออก Excel / CSV
+        </button>
+
+        <button
+            class="btn-primary"
+            onclick="backupJSON()"
+        >
+            💾 สำรองข้อมูล
+        </button>
+
+        <button
+            class="btn-secondary"
+            onclick="document.getElementById('importFile').click()"
+        >
+            📂 นำเข้าข้อมูล
+        </button>
+
+        <input
+            type="file"
+            id="importFile"
+            accept=".json"
+            style="display:none"
+            onchange="importJSON(event)"
+        >
+
+    </div>
 
 </div>
 
 </div>
-
-</div>
-
 
 
 <script>
 
-/* ==================================================
-   GOOGLE APPS SCRIPT URL
-================================================== */
+/* =====================================================
+   DATABASE
+===================================================== */
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbzbZjVmooBohads3X2tTpILnfINOP1ESfKaf9WbMXrApU22MlGOrQd-_jCTqCUF5PtU/exec";
-
+const KEY = "boatInspectionAppointments";
 
 let appointments = [];
 
+let editingId = null;
 
 
-/* ==================================================
-   LOAD DATA FROM GOOGLE SHEETS
-================================================== */
+/* =====================================================
+   LOAD
+===================================================== */
 
-async function loadData() {
+function loadLocalData() {
 
     try {
 
-        const response =
-            await fetch(API_URL);
-
-        const data =
-            await response.json();
+        const saved =
+            localStorage.getItem(KEY);
 
         appointments =
-            Array.isArray(data)
-            ? data
+            saved
+            ? JSON.parse(saved)
             : [];
 
-        appointments.sort(
-            (a,b) =>
-            (String(a.date)+String(a.time))
-            .localeCompare(
-                String(b.date)+String(b.time)
-            )
-        );
+        if (!Array.isArray(appointments)) {
+            appointments = [];
+        }
 
-        render();
+    } catch(error) {
 
-    }
-
-    catch(error) {
+        appointments = [];
 
         console.error(error);
-
-        showStatus(
-            "ไม่สามารถโหลดข้อมูลจาก Google Sheets ได้",
-            "error"
-        );
 
     }
 
 }
 
 
+/* =====================================================
+   SAVE
+===================================================== */
 
-/* ==================================================
-   ADD APPOINTMENT
-================================================== */
+function saveLocalData() {
 
-async function addAppointment() {
+    localStorage.setItem(
+        KEY,
+        JSON.stringify(appointments)
+    );
 
+}
+
+
+/* =====================================================
+   ADD / EDIT
+===================================================== */
+
+function addAppointment() {
 
     const date =
-        document
-        .getElementById("date")
-        .value;
-
+        document.getElementById("date").value;
 
     const time =
-        document
-        .getElementById("time")
-        .value;
-
+        document.getElementById("time").value;
 
     const boat =
-        document
-        .getElementById("boat")
-        .value
-        .trim();
-
+        document.getElementById("boat").value.trim();
 
     const place =
-        document
-        .getElementById("place")
-        .value
-        .trim();
-
+        document.getElementById("place").value.trim();
 
     const district =
-        document
-        .getElementById("district")
-        .value
-        .trim();
-
+        document.getElementById("district").value.trim();
 
     const phone =
-        document
-        .getElementById("phone")
-        .value
-        .trim();
-
+        document.getElementById("phone").value.trim();
 
 
     if (
-
         !date ||
         !time ||
         !boat ||
         !place ||
         !district ||
         !phone
-
     ) {
 
         showStatus(
@@ -527,236 +617,319 @@ async function addAppointment() {
     }
 
 
+    /* EDIT */
 
-    const button =
-        document.querySelector(
-            ".btn-primary"
-        );
+    if (editingId !== null) {
 
-
-    button.disabled = true;
-
-    button.textContent =
-        "กำลังบันทึก...";
-
-
-
-    try {
-
-
-        const response =
-            await fetch(
-                API_URL,
-                {
-
-                    method: "POST",
-
-                    body:
-                        JSON.stringify({
-
-                            date: date,
-
-                            time: time,
-
-                            boat: boat,
-
-                            place: place,
-
-                            district: district,
-
-                            phone: phone
-
-                        })
-
-                }
+        const index =
+            appointments.findIndex(
+                item => item.id === editingId
             );
 
+        if (index !== -1) {
 
+            appointments[index] = {
 
-        const result =
-            await response.json();
+                id: editingId,
 
+                date: date,
 
+                time: time,
 
-        if (result.success) {
+                boat: boat,
 
+                place: place,
 
-            showStatus(
-                "✅ บันทึกนัดตรวจเรือเรียบร้อยแล้ว",
-                "success"
-            );
+                district: district,
 
+                phone: phone
 
-            clearForm();
-
-
-            await loadData();
-
+            };
 
         }
 
-        else {
+        saveLocalData();
 
-            showStatus(
-                "ไม่สามารถบันทึกข้อมูลได้",
-                "error"
-            );
+        cancelEdit();
 
-        }
-
-
-    }
-
-    catch(error) {
-
-        console.error(error);
+        render();
 
         showStatus(
-            "เกิดข้อผิดพลาดในการเชื่อมต่อ Google Sheets",
-            "error"
+            "✅ แก้ไขรายการเรียบร้อยแล้ว",
+            "success"
         );
 
+        return;
     }
 
 
-    button.disabled = false;
+    /* ADD */
 
-    button.textContent =
-        "＋ บันทึกนัดตรวจเรือ";
+    const item = {
 
-}
+        id:
+            Date.now(),
 
+        date:
+            date,
 
+        time:
+            time,
 
-/* ==================================================
-   CLEAR FORM
-================================================== */
+        boat:
+            boat,
 
-function clearForm() {
+        place:
+            place,
 
-    document
-    .getElementById("date")
-    .value = "";
+        district:
+            district,
 
+        phone:
+            phone
 
-    document
-    .getElementById("time")
-    .value = "";
-
-
-    document
-    .getElementById("boat")
-    .value = "";
+    };
 
 
-    document
-    .getElementById("place")
-    .value = "";
+    appointments.push(item);
 
 
-    document
-    .getElementById("district")
-    .value = "";
+    sortData();
+
+    saveLocalData();
+
+    clearForm();
+
+    render();
 
 
-    document
-    .getElementById("phone")
-    .value = "";
-
-}
-
-
-
-/* ==================================================
-   STATUS MESSAGE
-================================================== */
-
-function showStatus(message, type) {
-
-    const status =
-        document
-        .getElementById("status");
-
-
-    status.textContent =
-        message;
-
-
-    status.className =
-        "status " + type;
-
-
-    setTimeout(
-        function() {
-
-            status.className =
-                "status";
-
-        },
-        5000
+    showStatus(
+        "✅ บันทึกนัดตรวจเรือเรียบร้อยแล้ว",
+        "success"
     );
 
 }
 
 
+/* =====================================================
+   SORT
+===================================================== */
 
-/* ==================================================
+function sortData() {
+
+    appointments.sort(
+        (a,b) => {
+
+            const aKey =
+                String(a.date) +
+                String(a.time);
+
+            const bKey =
+                String(b.date) +
+                String(b.time);
+
+            return aKey.localeCompare(bKey);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CLEAR
+===================================================== */
+
+function clearForm() {
+
+    document.getElementById("date").value = "";
+
+    document.getElementById("time").value = "";
+
+    document.getElementById("boat").value = "";
+
+    document.getElementById("place").value = "";
+
+    document.getElementById("district").value = "";
+
+    document.getElementById("phone").value = "";
+
+}
+
+
+/* =====================================================
+   EDIT
+===================================================== */
+
+function editItem(id) {
+
+    const item =
+        appointments.find(
+            item => item.id === id
+        );
+
+    if (!item) return;
+
+
+    editingId = id;
+
+
+    document.getElementById("date").value =
+        item.date;
+
+    document.getElementById("time").value =
+        item.time;
+
+    document.getElementById("boat").value =
+        item.boat;
+
+    document.getElementById("place").value =
+        item.place;
+
+    document.getElementById("district").value =
+        item.district;
+
+    document.getElementById("phone").value =
+        item.phone;
+
+
+    document.getElementById("formCard")
+        .classList.add("editing");
+
+
+    document.getElementById("formTitle")
+        .textContent =
+        "✏️ แก้ไขรายการนัดตรวจเรือ";
+
+
+    document.getElementById("saveButton")
+        .textContent =
+        "💾 บันทึกการแก้ไข";
+
+
+    document.getElementById("cancelEditButton")
+        .style.display =
+        "block";
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =====================================================
+   CANCEL EDIT
+===================================================== */
+
+function cancelEdit() {
+
+    editingId = null;
+
+    clearForm();
+
+
+    document.getElementById("formCard")
+        .classList.remove("editing");
+
+
+    document.getElementById("formTitle")
+        .textContent =
+        "📋 เพิ่มรายการนัดตรวจเรือ";
+
+
+    document.getElementById("saveButton")
+        .textContent =
+        "＋ บันทึกนัดตรวจเรือ";
+
+
+    document.getElementById("cancelEditButton")
+        .style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+function removeItem(id) {
+
+    const item =
+        appointments.find(
+            item => item.id === id
+        );
+
+
+    if (!item) return;
+
+
+    const confirmDelete =
+        confirm(
+            "ต้องการลบรายการนี้ใช่หรือไม่?\n\n" +
+            "เรือ: " + item.boat +
+            "\nวันนัด: " + thaiDate(item.date) +
+            "\nเวลา: " + item.time
+        );
+
+
+    if (!confirmDelete) return;
+
+
+    appointments =
+        appointments.filter(
+            item => item.id !== id
+        );
+
+
+    saveLocalData();
+
+    render();
+
+
+    showStatus(
+        "ลบรายการเรียบร้อยแล้ว",
+        "success"
+    );
+
+}
+
+
+/* =====================================================
    THAI DATE
-================================================== */
+===================================================== */
 
 function thaiDate(date) {
 
     if (!date) return "";
 
-
-    let d;
-
-
-    if (
-        String(date)
-        .includes("/")
-    ) {
-
-        return date;
-
-    }
-
-
-    d =
+    const d =
         new Date(
             date + "T00:00:00"
         );
 
-
-    if (
-        isNaN(d.getTime())
-    ) {
-
+    if (isNaN(d.getTime())) {
         return date;
-
     }
-
 
     return d.toLocaleDateString(
         "th-TH",
         {
-
             day: "2-digit",
-
             month: "2-digit",
-
             year: "numeric"
-
         }
     );
 
 }
 
 
-
-/* ==================================================
+/* =====================================================
    SECURITY
-================================================== */
+===================================================== */
 
 function esc(text) {
 
@@ -768,13 +941,9 @@ function esc(text) {
                 return {
 
                     "&":"&amp;",
-
                     "<":"&lt;",
-
                     ">":"&gt;",
-
                     '"':"&quot;",
-
                     "'":"&#039;"
 
                 }[m];
@@ -785,79 +954,116 @@ function esc(text) {
 }
 
 
-
-/* ==================================================
-   DISPLAY DATA
-================================================== */
+/* =====================================================
+   DISPLAY
+===================================================== */
 
 function render() {
-
 
     const search =
         document
         .getElementById("search")
         .value
-        .toLowerCase();
+        .toLowerCase()
+        .trim();
 
 
-    const data =
+    const filtered =
         appointments.filter(
-            item =>
+            item => {
 
-            [
+                return [
 
-                item.boat,
+                    item.boat,
+                    item.place,
+                    item.district,
+                    item.phone,
+                    item.date,
+                    item.time
 
-                item.place,
+                ]
+                .join(" ")
+                .toLowerCase()
+                .includes(search);
 
-                item.district,
-
-                item.phone,
-
-                item.date,
-
-                item.time
-
-            ]
-
-            .join(" ")
-
-            .toLowerCase()
-
-            .includes(search)
-
+            }
         );
 
 
+    document.getElementById("count")
+        .textContent =
+        filtered.length + " รายการ";
 
-    document
-    .getElementById("count")
-    .textContent =
-        data.length + " รายการ";
 
+    document.getElementById("totalCount")
+        .textContent =
+        appointments.length;
+
+
+    /* TODAY */
+
+    const today =
+        new Date();
+
+    const yyyy =
+        today.getFullYear();
+
+    const mm =
+        String(
+            today.getMonth() + 1
+        ).padStart(2,"0");
+
+    const dd =
+        String(
+            today.getDate()
+        ).padStart(2,"0");
+
+    const todayString =
+        yyyy + "-" + mm + "-" + dd;
+
+
+    const todayAppointments =
+        appointments.filter(
+            item =>
+            item.date === todayString
+        );
+
+
+    document.getElementById("todayCount")
+        .textContent =
+        todayAppointments.length;
+
+
+    /* UNIQUE BOATS */
+
+    const uniqueBoats =
+        new Set(
+            appointments.map(
+                item => item.boat
+            )
+        );
+
+
+    document.getElementById("boatCount")
+        .textContent =
+        uniqueBoats.size;
 
 
     const tbody =
-        document
-        .getElementById("tbody");
+        document.getElementById("tbody");
 
 
-
-    if (
-        data.length === 0
-    ) {
+    if (filtered.length === 0) {
 
         tbody.innerHTML = `
 
         <tr>
 
             <td
-                colspan="6"
+                colspan="7"
                 class="empty"
             >
-
                 ยังไม่มีรายการนัดตรวจเรือ
-
             </td>
 
         </tr>
@@ -869,9 +1075,8 @@ function render() {
     }
 
 
-
     tbody.innerHTML =
-        data.map(
+        filtered.map(
             item => `
 
         <tr>
@@ -902,6 +1107,28 @@ function render() {
                 ${esc(item.phone)}
             </td>
 
+            <td>
+
+                <div class="action-buttons">
+
+                    <button
+                        class="btn-edit"
+                        onclick="editItem(${item.id})"
+                    >
+                        ✏️ แก้ไข
+                    </button>
+
+                    <button
+                        class="btn-danger"
+                        onclick="removeItem(${item.id})"
+                    >
+                        🗑️ ลบ
+                    </button>
+
+                </div>
+
+            </td>
+
         </tr>
 
         `
@@ -911,12 +1138,409 @@ function render() {
 }
 
 
+/* =====================================================
+   STATUS
+===================================================== */
 
-/* ==================================================
+function showStatus(message,type) {
+
+    const status =
+        document.getElementById("status");
+
+
+    status.textContent =
+        message;
+
+
+    status.className =
+        "status " + type;
+
+
+    setTimeout(
+        function() {
+
+            status.className =
+                "status";
+
+        },
+        4000
+    );
+
+}
+
+
+/* =====================================================
+   EXPORT CSV
+===================================================== */
+
+function exportCSV() {
+
+    if (appointments.length === 0) {
+
+        alert(
+            "ยังไม่มีข้อมูลสำหรับส่งออก"
+        );
+
+        return;
+
+    }
+
+
+    let csv =
+        "\uFEFF";
+
+    csv +=
+        "วันนัดตรวจเรือ,เวลา,ชื่อเรือ,สถานที่จอดเรือ,อำเภอ,เบอร์โทร\n";
+
+
+    appointments.forEach(
+        item => {
+
+            csv += [
+
+                csvEscape(
+                    thaiDate(item.date)
+                ),
+
+                csvEscape(
+                    item.time
+                ),
+
+                csvEscape(
+                    item.boat
+                ),
+
+                csvEscape(
+                    item.place
+                ),
+
+                csvEscape(
+                    item.district
+                ),
+
+                csvEscape(
+                    item.phone
+                )
+
+            ].join(",") + "\n";
+
+        }
+    );
+
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type:
+                "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+    link.download =
+        "รายการนัดตรวจเรือ.csv";
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+
+    showStatus(
+        "📊 ส่งออกข้อมูลเรียบร้อยแล้ว",
+        "success"
+    );
+
+}
+
+
+/* =====================================================
+   CSV ESCAPE
+===================================================== */
+
+function csvEscape(value) {
+
+    const text =
+        String(value ?? "");
+
+
+    return '"' +
+        text.replace(
+            /"/g,
+            '""'
+        ) +
+        '"';
+
+}
+
+
+/* =====================================================
+   BACKUP JSON
+===================================================== */
+
+function backupJSON() {
+
+    if (appointments.length === 0) {
+
+        alert(
+            "ยังไม่มีข้อมูลสำหรับสำรอง"
+        );
+
+        return;
+
+    }
+
+
+    const backup = {
+
+        version: 1,
+
+        createdAt:
+            new Date().toISOString(),
+
+        appointments:
+            appointments
+
+    };
+
+
+    const blob =
+        new Blob(
+            [
+                JSON.stringify(
+                    backup,
+                    null,
+                    2
+                )
+            ],
+            {
+                type:
+                "application/json"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+    link.download =
+        "สำรองข้อมูลนัดตรวจเรือ.json";
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+
+    showStatus(
+        "💾 สำรองข้อมูลเรียบร้อยแล้ว",
+        "success"
+    );
+
+}
+
+
+/* =====================================================
+   IMPORT JSON
+===================================================== */
+
+function importJSON(event) {
+
+    const file =
+        event.target.files[0];
+
+
+    if (!file) return;
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e) {
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        e.target.result
+                    );
+
+
+                let imported;
+
+
+                if (
+                    Array.isArray(data)
+                ) {
+
+                    imported = data;
+
+                } else {
+
+                    imported =
+                        data.appointments;
+
+                }
+
+
+                if (
+                    !Array.isArray(imported)
+                ) {
+
+                    throw new Error(
+                        "รูปแบบไฟล์ไม่ถูกต้อง"
+                    );
+
+                }
+
+
+                const cleaned =
+                    imported
+                    .filter(
+                        item =>
+                        item &&
+                        item.date &&
+                        item.time &&
+                        item.boat
+                    )
+                    .map(
+                        item => ({
+
+                            id:
+                                item.id ||
+                                Date.now() +
+                                Math.random(),
+
+                            date:
+                                item.date,
+
+                            time:
+                                item.time,
+
+                            boat:
+                                item.boat,
+
+                            place:
+                                item.place || "",
+
+                            district:
+                                item.district || "",
+
+                            phone:
+                                item.phone || ""
+
+                        })
+                    );
+
+
+                if (
+                    cleaned.length === 0
+                ) {
+
+                    alert(
+                        "ไม่พบข้อมูลที่สามารถนำเข้าได้"
+                    );
+
+                    return;
+
+                }
+
+
+                const replace =
+                    confirm(
+                        "ต้องการนำข้อมูลนี้มาแทนข้อมูลเดิมทั้งหมดหรือไม่?\n\n" +
+                        "กด OK = แทนข้อมูลเดิม\n" +
+                        "กด Cancel = เพิ่มต่อจากข้อมูลเดิม"
+                    );
+
+
+                if (replace) {
+
+                    appointments =
+                        cleaned;
+
+                } else {
+
+                    appointments =
+                        appointments.concat(
+                            cleaned
+                        );
+
+                }
+
+
+                sortData();
+
+                saveLocalData();
+
+                render();
+
+
+                alert(
+                    "✅ นำเข้าข้อมูล " +
+                    cleaned.length +
+                    " รายการเรียบร้อยแล้ว"
+                );
+
+
+            } catch(error) {
+
+                console.error(error);
+
+                alert(
+                    "❌ ไม่สามารถนำเข้าไฟล์ได้"
+                );
+
+            }
+
+
+            event.target.value = "";
+
+        };
+
+
+    reader.readAsText(file);
+
+}
+
+
+/* =====================================================
    START
-================================================== */
+===================================================== */
 
-loadData();
+loadLocalData();
+
+sortData();
+
+render();
 
 </script>
 
