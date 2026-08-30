@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ระบบนัดตรวจเรือ</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, "Noto Sans Thai", sans-serif;
+    background: #f3f7fb;
+    color: #17324d;
+}
+
+/* HEADER */
+header {
+    background: #0b4f78;
+    color: white;
+    padding: 25px 15px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0 0 8px;
+    font-size: 27px;
+}
+
+header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+h2 {
+    color: #0b4f78;
+    margin-top: 0;
+}
+
+/* FORM */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccd8e2;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #0b4f78;
+}
+
+/* BUTTON */
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+button {
+    border: none;
+    border-radius: 10px;
+    padding: 13px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #0b4f78;
+    color: white;
+}
+
+.btn-secondary {
+    background: #e7f0f6;
+    color: #0b4f78;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+    padding: 8px 12px;
+}
+
+/* SEARCH */
+.search {
+    margin-bottom: 15px;
+}
+
+/* TABLE */
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+th {
+    background: #0b4f78;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+td {
+    padding: 11px;
+    border-bottom: 1px solid #e2e7eb;
+}
+
+tr:hover {
+    background: #f5faff;
+}
+
+.badge {
+    display: inline-block;
+    background: #e8f4ff;
+    color: #0b4f78;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+/* MOBILE */
+@media (max-width: 650px) {
+
+    .container {
+        padding: 12px;
+    }
+
+    .card {
+        padding: 17px;
+    }
+
+    header h1 {
+        font-size: 22px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    button {
+        width: 100%;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>🚢 ระบบนัดตรวจเรือ</h1>
+
+<p>
+ระบบบันทึกและตรวจสอบนัดตรวจเรือ
+</p>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- FORM -->
+
+<div class="card">
+
+<h2>📋 เพิ่มรายการนัดตรวจเรือ</h2>
+
+
+<div class="grid">
+
+
+<div class="form-group">
+
+<label>วันนัดตรวจเรือ</label>
+
+<input
+type="date"
+id="date"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>เวลา</label>
+
+<input
+type="time"
+id="time"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>เรือชื่อ</label>
+
+<input
+type="text"
+id="boat"
+placeholder="เช่น เรือโชคดี 1"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>สถานที่จอดเรือ</label>
+
+<input
+type="text"
+id="place"
+placeholder="ระบุสถานที่จอดเรือ"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>อำเภอ</label>
+
+<input
+type="text"
+id="district"
+placeholder="เช่น เมืองชุมพร"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>เบอร์โทร</label>
+
+<input
+type="tel"
+id="phone"
+placeholder="08X-XXX-XXXX"
+>
+
+</div>
+
+
+</div>
+
+
+<div class="buttons">
+
+<button
+class="btn-primary"
+onclick="addAppointment()"
+>
+＋ บันทึกนัดตรวจเรือ
+</button>
+
+
+<button
+class="btn-secondary"
+onclick="clearForm()"
+>
+ล้างข้อมูล
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- LIST -->
+
+<div class="card">
+
+<h2>
+📅 รายการนัดตรวจเรือ
+
+<span
+class="badge"
+id="count"
+>
+0 รายการ
+</span>
+
+</h2>
+
+
+<input
+class="search"
+type="search"
+id="search"
+placeholder="🔎 ค้นหาชื่อเรือ / อำเภอ / สถานที่ / เบอร์โทร"
+oninput="render()"
+>
+
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>วันนัด</th>
+
+<th>เวลา</th>
+
+<th>ชื่อเรือ</th>
+
+<th>สถานที่จอดเรือ</th>
+
+<th>อำเภอ</th>
+
+<th>เบอร์โทร</th>
+
+<th>จัดการ</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="tbody">
+
+</tbody>
+
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+/* =========================
+   DATABASE
+========================= */
+
+const KEY = "boatInspectionAppointments";
+
+
+function getData() {
+
+    return JSON.parse(
+        localStorage.getItem(KEY) || "[]"
+    );
+
+}
+
+
+function saveData(data) {
+
+    localStorage.setItem(
+        KEY,
+        JSON.stringify(data)
+    );
+
+}
+
+
+
+/* =========================
+   ADD APPOINTMENT
+========================= */
+
+function addAppointment() {
+
+
+    const item = {
+
+        id: Date.now(),
+
+        date:
+        document.getElementById("date").value,
+
+        time:
+        document.getElementById("time").value,
+
+        boat:
+        document.getElementById("boat").value.trim(),
+
+        place:
+        document.getElementById("place").value.trim(),
+
+        district:
+        document.getElementById("district").value.trim(),
+
+        phone:
+        document.getElementById("phone").value.trim()
+
+    };
+
+
+    if (
+
+        !item.date ||
+        !item.time ||
+        !item.boat ||
+        !item.place ||
+        !item.district ||
+        !item.phone
+
+    ) {
+
+        alert(
+            "กรุณากรอกข้อมูลให้ครบทุกช่อง"
+        );
+
+        return;
+
+    }
+
+
+    const data = getData();
+
+
+    data.push(item);
+
+
+    data.sort(
+        (a,b) =>
+        (a.date+a.time)
+        .localeCompare(
+            b.date+b.time
+        )
+    );
+
+
+    saveData(data);
+
+
+    clearForm();
+
+
+    render();
+
+
+    alert(
+        "บันทึกรายการนัดตรวจเรือเรียบร้อยแล้ว"
+    );
+
+}
+
+
+
+/* =========================
+   CLEAR FORM
+========================= */
+
+function clearForm() {
+
+    document.getElementById("date").value = "";
+
+    document.getElementById("time").value = "";
+
+    document.getElementById("boat").value = "";
+
+    document.getElementById("place").value = "";
+
+    document.getElementById("district").value = "";
+
+    document.getElementById("phone").value = "";
+
+}
+
+
+
+/* =========================
+   DELETE
+========================= */
+
+function removeItem(id) {
+
+
+    if (
+        !confirm(
+            "ต้องการลบรายการนี้ใช่หรือไม่?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const data =
+        getData().filter(
+            item =>
+            item.id !== id
+        );
+
+
+    saveData(data);
+
+
+    render();
+
+}
+
+
+
+/* =========================
+   THAI DATE
+========================= */
+
+function thaiDate(date) {
+
+
+    if (!date) return "";
+
+
+    const d =
+        new Date(
+            date + "T00:00:00"
+        );
+
+
+    return d.toLocaleDateString(
+        "th-TH",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function esc(text) {
+
+    return String(text)
+        .replace(
+            /[&<>"']/g,
+            function(m) {
+
+                return {
+
+                    "&":"&amp;",
+                    "<":"&lt;",
+                    ">":"&gt;",
+                    '"':"&quot;",
+                    "'":"&#039;"
+
+                }[m];
+
+            }
+        );
+
+}
+
+
+
+/* =========================
+   DISPLAY
+========================= */
+
+function render() {
+
+
+    const search =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    const data =
+        getData()
+        .filter(item =>
+
+            [
+
+                item.boat,
+                item.place,
+                item.district,
+                item.phone,
+                item.date,
+                item.time
+
+            ]
+            .join(" ")
+            .toLowerCase()
+            .includes(search)
+
+        );
+
+
+    document
+    .getElementById("count")
+    .textContent =
+        data.length + " รายการ";
+
+
+    const tbody =
+        document
+        .getElementById("tbody");
+
+
+    if (data.length === 0) {
+
+        tbody.innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="7"
+                class="empty"
+            >
+
+                ยังไม่มีรายการนัดตรวจเรือ
+
+            </td>
+
+        </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        data.map(item => `
+
+        <tr>
+
+            <td>
+                ${thaiDate(item.date)}
+            </td>
+
+            <td>
+                ${esc(item.time)}
+            </td>
+
+            <td>
+                <b>
+                    ${esc(item.boat)}
+                </b>
+            </td>
+
+            <td>
+                ${esc(item.place)}
+            </td>
+
+            <td>
+                ${esc(item.district)}
+            </td>
+
+            <td>
+                ${esc(item.phone)}
+            </td>
+
+            <td>
+
+                <button
+                    class="btn-danger"
+                    onclick="removeItem(${item.id})"
+                >
+
+                    ลบ
+
+                </button>
+
+            </td>
+
+        </tr>
+
+        `)
+        .join("");
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+render();
+
+</script>
+
+</body>
+</html>
