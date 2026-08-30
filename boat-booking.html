@@ -18,7 +18,6 @@ body {
     color: #17324d;
 }
 
-/* HEADER */
 header {
     background: #0b4f78;
     color: white;
@@ -36,14 +35,12 @@ header p {
     opacity: 0.9;
 }
 
-/* CONTAINER */
 .container {
     max-width: 1100px;
     margin: auto;
     padding: 20px;
 }
 
-/* CARD */
 .card {
     background: white;
     border-radius: 18px;
@@ -57,7 +54,6 @@ h2 {
     margin-top: 0;
 }
 
-/* FORM */
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -83,7 +79,6 @@ input:focus {
     border-color: #0b4f78;
 }
 
-/* BUTTON */
 .buttons {
     display: flex;
     gap: 10px;
@@ -116,12 +111,10 @@ button {
     padding: 8px 12px;
 }
 
-/* SEARCH */
 .search {
     margin-bottom: 15px;
 }
 
-/* TABLE */
 .table-container {
     overflow-x: auto;
 }
@@ -163,7 +156,25 @@ tr:hover {
     color: #777;
 }
 
-/* MOBILE */
+.status {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+}
+
+.status.success {
+    display: block;
+    background: #e8f7ee;
+    color: #19733b;
+}
+
+.status.error {
+    display: block;
+    background: #fdecec;
+    color: #b42318;
+}
+
 @media (max-width: 650px) {
 
     .container {
@@ -185,7 +196,6 @@ tr:hover {
     button {
         width: 100%;
     }
-
 }
 </style>
 </head>
@@ -314,6 +324,9 @@ onclick="clearForm()"
 
 </div>
 
+
+<div id="status" class="status"></div>
+
 </div>
 
 
@@ -323,6 +336,7 @@ onclick="clearForm()"
 <div class="card">
 
 <h2>
+
 📅 รายการนัดตรวจเรือ
 
 <span
@@ -364,8 +378,6 @@ oninput="render()"
 
 <th>เบอร์โทร</th>
 
-<th>จัดการ</th>
-
 </tr>
 
 </thead>
@@ -388,78 +400,126 @@ oninput="render()"
 
 <script>
 
-/* =========================
-   DATABASE
-========================= */
+/* ==================================================
+   GOOGLE APPS SCRIPT URL
+================================================== */
 
-const KEY = "boatInspectionAppointments";
+const API_URL =
+"https://script.google.com/macros/s/AKfycbzbZjVmooBohads3X2tTpILnfINOP1ESfKaf9WbMXrApU22MlGOrQd-_jCTqCUF5PtU/exec";
 
 
-function getData() {
+let appointments = [];
 
-    return JSON.parse(
-        localStorage.getItem(KEY) || "[]"
-    );
+
+
+/* ==================================================
+   LOAD DATA FROM GOOGLE SHEETS
+================================================== */
+
+async function loadData() {
+
+    try {
+
+        const response =
+            await fetch(API_URL);
+
+        const data =
+            await response.json();
+
+        appointments =
+            Array.isArray(data)
+            ? data
+            : [];
+
+        appointments.sort(
+            (a,b) =>
+            (String(a.date)+String(a.time))
+            .localeCompare(
+                String(b.date)+String(b.time)
+            )
+        );
+
+        render();
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        showStatus(
+            "ไม่สามารถโหลดข้อมูลจาก Google Sheets ได้",
+            "error"
+        );
+
+    }
 
 }
 
 
-function saveData(data) {
 
-    localStorage.setItem(
-        KEY,
-        JSON.stringify(data)
-    );
-
-}
-
-
-
-/* =========================
+/* ==================================================
    ADD APPOINTMENT
-========================= */
+================================================== */
 
-function addAppointment() {
+async function addAppointment() {
 
 
-    const item = {
+    const date =
+        document
+        .getElementById("date")
+        .value;
 
-        id: Date.now(),
 
-        date:
-        document.getElementById("date").value,
+    const time =
+        document
+        .getElementById("time")
+        .value;
 
-        time:
-        document.getElementById("time").value,
 
-        boat:
-        document.getElementById("boat").value.trim(),
+    const boat =
+        document
+        .getElementById("boat")
+        .value
+        .trim();
 
-        place:
-        document.getElementById("place").value.trim(),
 
-        district:
-        document.getElementById("district").value.trim(),
+    const place =
+        document
+        .getElementById("place")
+        .value
+        .trim();
 
-        phone:
-        document.getElementById("phone").value.trim()
 
-    };
+    const district =
+        document
+        .getElementById("district")
+        .value
+        .trim();
+
+
+    const phone =
+        document
+        .getElementById("phone")
+        .value
+        .trim();
+
 
 
     if (
 
-        !item.date ||
-        !item.time ||
-        !item.boat ||
-        !item.place ||
-        !item.district ||
-        !item.phone
+        !date ||
+        !time ||
+        !boat ||
+        !place ||
+        !district ||
+        !phone
 
     ) {
 
-        alert(
-            "กรุณากรอกข้อมูลให้ครบทุกช่อง"
+        showStatus(
+            "กรุณากรอกข้อมูลให้ครบทุกช่อง",
+            "error"
         );
 
         return;
@@ -467,116 +527,226 @@ function addAppointment() {
     }
 
 
-    const data = getData();
+
+    const button =
+        document.querySelector(
+            ".btn-primary"
+        );
 
 
-    data.push(item);
+    button.disabled = true;
+
+    button.textContent =
+        "กำลังบันทึก...";
 
 
-    data.sort(
-        (a,b) =>
-        (a.date+a.time)
-        .localeCompare(
-            b.date+b.time
-        )
-    );
+
+    try {
 
 
-    saveData(data);
+        const response =
+            await fetch(
+                API_URL,
+                {
+
+                    method: "POST",
+
+                    body:
+                        JSON.stringify({
+
+                            date: date,
+
+                            time: time,
+
+                            boat: boat,
+
+                            place: place,
+
+                            district: district,
+
+                            phone: phone
+
+                        })
+
+                }
+            );
 
 
-    clearForm();
+
+        const result =
+            await response.json();
 
 
-    render();
+
+        if (result.success) {
 
 
-    alert(
-        "บันทึกรายการนัดตรวจเรือเรียบร้อยแล้ว"
-    );
+            showStatus(
+                "✅ บันทึกนัดตรวจเรือเรียบร้อยแล้ว",
+                "success"
+            );
+
+
+            clearForm();
+
+
+            await loadData();
+
+
+        }
+
+        else {
+
+            showStatus(
+                "ไม่สามารถบันทึกข้อมูลได้",
+                "error"
+            );
+
+        }
+
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        showStatus(
+            "เกิดข้อผิดพลาดในการเชื่อมต่อ Google Sheets",
+            "error"
+        );
+
+    }
+
+
+    button.disabled = false;
+
+    button.textContent =
+        "＋ บันทึกนัดตรวจเรือ";
 
 }
 
 
 
-/* =========================
+/* ==================================================
    CLEAR FORM
-========================= */
+================================================== */
 
 function clearForm() {
 
-    document.getElementById("date").value = "";
-
-    document.getElementById("time").value = "";
-
-    document.getElementById("boat").value = "";
-
-    document.getElementById("place").value = "";
-
-    document.getElementById("district").value = "";
-
-    document.getElementById("phone").value = "";
-
-}
+    document
+    .getElementById("date")
+    .value = "";
 
 
-
-/* =========================
-   DELETE
-========================= */
-
-function removeItem(id) {
+    document
+    .getElementById("time")
+    .value = "";
 
 
-    if (
-        !confirm(
-            "ต้องการลบรายการนี้ใช่หรือไม่?"
-        )
-    ) {
-
-        return;
-
-    }
+    document
+    .getElementById("boat")
+    .value = "";
 
 
-    const data =
-        getData().filter(
-            item =>
-            item.id !== id
-        );
+    document
+    .getElementById("place")
+    .value = "";
 
 
-    saveData(data);
+    document
+    .getElementById("district")
+    .value = "";
 
 
-    render();
+    document
+    .getElementById("phone")
+    .value = "";
 
 }
 
 
 
-/* =========================
+/* ==================================================
+   STATUS MESSAGE
+================================================== */
+
+function showStatus(message, type) {
+
+    const status =
+        document
+        .getElementById("status");
+
+
+    status.textContent =
+        message;
+
+
+    status.className =
+        "status " + type;
+
+
+    setTimeout(
+        function() {
+
+            status.className =
+                "status";
+
+        },
+        5000
+    );
+
+}
+
+
+
+/* ==================================================
    THAI DATE
-========================= */
+================================================== */
 
 function thaiDate(date) {
-
 
     if (!date) return "";
 
 
-    const d =
+    let d;
+
+
+    if (
+        String(date)
+        .includes("/")
+    ) {
+
+        return date;
+
+    }
+
+
+    d =
         new Date(
             date + "T00:00:00"
         );
 
 
+    if (
+        isNaN(d.getTime())
+    ) {
+
+        return date;
+
+    }
+
+
     return d.toLocaleDateString(
         "th-TH",
         {
+
             day: "2-digit",
+
             month: "2-digit",
+
             year: "numeric"
+
         }
     );
 
@@ -584,9 +754,9 @@ function thaiDate(date) {
 
 
 
-/* =========================
+/* ==================================================
    SECURITY
-========================= */
+================================================== */
 
 function esc(text) {
 
@@ -598,9 +768,13 @@ function esc(text) {
                 return {
 
                     "&":"&amp;",
+
                     "<":"&lt;",
+
                     ">":"&gt;",
+
                     '"':"&quot;",
+
                     "'":"&#039;"
 
                 }[m];
@@ -612,9 +786,9 @@ function esc(text) {
 
 
 
-/* =========================
-   DISPLAY
-========================= */
+/* ==================================================
+   DISPLAY DATA
+================================================== */
 
 function render() {
 
@@ -627,24 +801,33 @@ function render() {
 
 
     const data =
-        getData()
-        .filter(item =>
+        appointments.filter(
+            item =>
 
             [
 
                 item.boat,
+
                 item.place,
+
                 item.district,
+
                 item.phone,
+
                 item.date,
+
                 item.time
 
             ]
+
             .join(" ")
+
             .toLowerCase()
+
             .includes(search)
 
         );
+
 
 
     document
@@ -653,19 +836,23 @@ function render() {
         data.length + " รายการ";
 
 
+
     const tbody =
         document
         .getElementById("tbody");
 
 
-    if (data.length === 0) {
+
+    if (
+        data.length === 0
+    ) {
 
         tbody.innerHTML = `
 
         <tr>
 
             <td
-                colspan="7"
+                colspan="6"
                 class="empty"
             >
 
@@ -682,8 +869,10 @@ function render() {
     }
 
 
+
     tbody.innerHTML =
-        data.map(item => `
+        data.map(
+            item => `
 
         <tr>
 
@@ -713,32 +902,21 @@ function render() {
                 ${esc(item.phone)}
             </td>
 
-            <td>
-
-                <button
-                    class="btn-danger"
-                    onclick="removeItem(${item.id})"
-                >
-
-                    ลบ
-
-                </button>
-
-            </td>
-
         </tr>
 
-        `)
+        `
+        )
         .join("");
 
 }
 
 
-/* =========================
-   START
-========================= */
 
-render();
+/* ==================================================
+   START
+================================================== */
+
+loadData();
 
 </script>
 
