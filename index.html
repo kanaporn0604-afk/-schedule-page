@@ -24,11 +24,7 @@
 
 body{
     margin:0;
-    font-family:
-        "Noto Sans Thai",
-        "Segoe UI",
-        Arial,
-        sans-serif;
+    font-family:"Noto Sans Thai","Segoe UI",Arial,sans-serif;
     background:
         linear-gradient(
             180deg,
@@ -37,10 +33,6 @@ body{
         );
     color:var(--text);
 }
-
-/* =========================
-   HERO
-========================= */
 
 .hero{
     min-height:330px;
@@ -66,7 +58,6 @@ body{
     padding:8px 15px;
     border-radius:999px;
     font-size:13px;
-    backdrop-filter:blur(10px);
 }
 
 .hero h1{
@@ -81,8 +72,6 @@ body{
     margin:0;
     font-size:16px;
 }
-
-/* คลื่นทะเล */
 
 .wave{
     position:absolute;
@@ -104,20 +93,12 @@ body{
     border-radius:50% 50% 0 0 / 100% 100% 0 0;
 }
 
-/* =========================
-   MAIN
-========================= */
-
 .container{
     width:min(1200px,94%);
     margin:-20px auto 60px;
     position:relative;
     z-index:10;
 }
-
-/* =========================
-   STATS
-========================= */
 
 .stats{
     display:grid;
@@ -145,10 +126,6 @@ body{
     font-weight:800;
     margin-top:4px;
 }
-
-/* =========================
-   TOOLBAR
-========================= */
 
 .toolbar{
     background:rgba(255,255,255,.97);
@@ -209,10 +186,6 @@ button{
     color:var(--navy);
 }
 
-/* =========================
-   STATUS
-========================= */
-
 .status{
     margin:15px 0;
     padding:11px 15px;
@@ -229,10 +202,6 @@ button{
     color:#a52828;
     border-color:#f0cccc;
 }
-
-/* =========================
-   TABLE
-========================= */
 
 .schedule-card{
     margin-top:15px;
@@ -383,10 +352,6 @@ tbody tr:hover{
     color:var(--muted);
 }
 
-/* =========================
-   MODAL
-========================= */
-
 .modal{
     display:none;
     position:fixed;
@@ -478,10 +443,6 @@ textarea{
     resize:vertical;
 }
 
-/* =========================
-   PEOPLE
-========================= */
-
 .people-box{
     border:1px solid var(--border);
     border-radius:12px;
@@ -518,10 +479,6 @@ textarea{
     justify-content:flex-end;
     gap:10px;
 }
-
-/* =========================
-   MOBILE
-========================= */
 
 @media(max-width:700px){
 
@@ -579,7 +536,6 @@ textarea{
     .modal-body{
         padding:18px;
     }
-
 }
 </style>
 </head>
@@ -611,86 +567,46 @@ textarea{
 
 <main class="container">
 
-    <!-- สถิติ -->
-
     <section class="stats">
 
         <div class="stat">
-
-            <div class="stat-title">
-                นัดหมายทั้งหมด
-            </div>
-
-            <div
-                class="stat-number"
-                id="totalCount"
-            >
-                0
-            </div>
-
+            <div class="stat-title">นัดหมายทั้งหมด</div>
+            <div class="stat-number" id="totalCount">0</div>
         </div>
 
-
         <div class="stat">
-
-            <div class="stat-title">
-                นัดหมายวันนี้
-            </div>
-
-            <div
-                class="stat-number"
-                id="todayCount"
-            >
-                0
-            </div>
-
+            <div class="stat-title">นัดหมายวันนี้</div>
+            <div class="stat-number" id="todayCount">0</div>
         </div>
 
-
         <div class="stat">
-
-            <div class="stat-title">
-                วันที่มีนัดหมาย
-            </div>
-
-            <div
-                class="stat-number"
-                id="dateCount"
-            >
-                0
-            </div>
-
+            <div class="stat-title">วันที่มีนัดหมาย</div>
+            <div class="stat-number" id="dateCount">0</div>
         </div>
 
     </section>
 
 
-    <!-- เครื่องมือ -->
-
     <section class="toolbar">
 
         <div class="search">
-
             <input
                 id="searchInput"
                 type="text"
                 placeholder="🔎 ค้นหาเรื่อง สถานที่ หรือผู้เข้าร่วม..."
             >
-
         </div>
-
 
         <button
             class="btn btn-primary"
             id="addButton"
+            type="button"
         >
             ＋ เพิ่มนัดหมาย
         </button>
 
     </section>
 
-
-    <!-- สถานะ Firebase -->
 
     <div
         id="status"
@@ -699,8 +615,6 @@ textarea{
         🔄 กำลังเชื่อมต่อฐานข้อมูล...
     </div>
 
-
-    <!-- ตาราง -->
 
     <section class="schedule-card">
 
@@ -711,7 +625,6 @@ textarea{
                 <thead>
 
                     <tr>
-
                         <th>วันที่</th>
                         <th>เวลา</th>
                         <th>สถานที่</th>
@@ -719,15 +632,11 @@ textarea{
                         <th>ผู้เข้าร่วม</th>
                         <th>หมายเหตุ</th>
                         <th>จัดการ</th>
-
                     </tr>
 
                 </thead>
 
-
-                <tbody id="tableBody">
-
-                </tbody>
+                <tbody id="tableBody"></tbody>
 
             </table>
 
@@ -737,8 +646,6 @@ textarea{
 
 </main>
 
-
-<!-- MODAL -->
 
 <div
     class="modal"
@@ -756,6 +663,7 @@ textarea{
             <button
                 class="close"
                 id="closeButton"
+                type="button"
             >
                 ×
             </button>
@@ -771,9 +679,7 @@ textarea{
 
                     <div class="form-group">
 
-                        <label>
-                            วันที่ *
-                        </label>
+                        <label>วันที่ *</label>
 
                         <input
                             type="date"
@@ -786,9 +692,7 @@ textarea{
 
                     <div class="form-group">
 
-                        <label>
-                            เวลา *
-                        </label>
+                        <label>เวลา *</label>
 
                         <input
                             type="time"
@@ -801,9 +705,7 @@ textarea{
 
                     <div class="form-group full">
 
-                        <label>
-                            สถานที่ *
-                        </label>
+                        <label>สถานที่ *</label>
 
                         <input
                             type="text"
@@ -817,9 +719,7 @@ textarea{
 
                     <div class="form-group full">
 
-                        <label>
-                            เรื่อง / ภารกิจ *
-                        </label>
+                        <label>เรื่อง / ภารกิจ *</label>
 
                         <input
                             type="text"
@@ -833,9 +733,7 @@ textarea{
 
                     <div class="form-group full">
 
-                        <label>
-                            ผู้เข้าร่วม
-                        </label>
+                        <label>ผู้เข้าร่วม</label>
 
                         <div
                             class="people-box"
@@ -847,9 +745,7 @@ textarea{
 
                     <div class="form-group full">
 
-                        <label>
-                            หมายเหตุ
-                        </label>
+                        <label>หมายเหตุ</label>
 
                         <textarea
                             id="note"
@@ -873,7 +769,6 @@ textarea{
                     ยกเลิก
                 </button>
 
-
                 <button
                     type="submit"
                     class="btn btn-primary"
@@ -892,14 +787,9 @@ textarea{
 
 <script type="module">
 
-/* ==========================================================
-   FIREBASE
-========================================================== */
-
 import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-
 
 import {
     getFirestore,
@@ -912,7 +802,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 
-/* Firebase Config ของคุณ */
+/* ==========================================================
+   FIREBASE CONFIG
+========================================================== */
 
 const firebaseConfig = {
 
@@ -936,31 +828,24 @@ const firebaseConfig = {
 
     measurementId:
         "G-9Q7LZYRWJY"
-
 };
 
 
 const app =
     initializeApp(firebaseConfig);
 
-
 const db =
     getFirestore(app);
 
-
 const appointmentsRef =
-    collection(
-        db,
-        "appointments"
-    );
+    collection(db, "appointments");
 
 
 /* ==========================================================
-   รายชื่อผู้เข้าร่วม
+   รายชื่อ
 ========================================================== */
 
 const PEOPLE = [
-
     "ผอ.สุรศักดิ์",
     "คุณปานขวัญ",
     "คุณสรศักดิ์",
@@ -984,21 +869,15 @@ const PEOPLE = [
     "คุณสุวรรณี",
     "คุณธัชพงศ์",
     "คุณทนงศักดิ์"
-
 ];
 
 
-/* ==========================================================
-   ตัวแปร
-========================================================== */
-
 let appointments = [];
-
 let editingId = null;
 
 
 /* ==========================================================
-   ESCAPE HTML
+   ESCAPE
 ========================================================== */
 
 function escapeHTML(value){
@@ -1009,12 +888,11 @@ function escapeHTML(value){
         .replaceAll(">","&gt;")
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#039;");
-
 }
 
 
 /* ==========================================================
-   จัดเรียงรายชื่อ
+   จัดรายชื่อ
 ========================================================== */
 
 function normalizeAttendees(list){
@@ -1026,21 +904,24 @@ function normalizeAttendees(list){
         }
 
         list = [list];
-
     }
 
 
-    let result = [...list];
+    let result = [];
 
+    list.forEach(person => {
 
-    result = result.filter(
-        (value,index) =>
-            value &&
-            result.indexOf(value) === index
-    );
+        if(
+            person &&
+            !result.includes(person)
+        ){
 
+            result.push(person);
 
-    /* ถ้ามี ผอ. ให้ขึ้นคนแรก */
+        }
+
+    });
+
 
     const directorIndex =
         result.indexOf("ผอ.สุรศักดิ์");
@@ -1061,18 +942,19 @@ function normalizeAttendees(list){
 
 
     return result;
-
 }
 
 
 /* ==========================================================
-   สร้างรายชื่อ Checkbox
+   สร้าง Checkbox
 ========================================================== */
 
 function buildPeopleList(selected = []){
 
     const box =
-        document.getElementById("peopleBox");
+        document.getElementById(
+            "peopleBox"
+        );
 
 
     box.innerHTML = "";
@@ -1080,40 +962,65 @@ function buildPeopleList(selected = []){
 
     PEOPLE.forEach(person => {
 
-        const checked =
-            selected.includes(person)
-                ? "checked"
-                : "";
-
-
         const label =
-            document.createElement("label");
+            document.createElement(
+                "label"
+            );
 
 
         label.className =
             "person-check";
 
 
-        label.innerHTML = `
-
-            <input
-                type="checkbox"
-                name="attendee"
-                value="${escapeHTML(person)}"
-                ${checked}
-            >
-
-            <span>
-                ${escapeHTML(person)}
-            </span>
-
-        `;
+        const checkbox =
+            document.createElement(
+                "input"
+            );
 
 
-        box.appendChild(label);
+        checkbox.type =
+            "checkbox";
+
+        checkbox.name =
+            "attendee";
+
+        checkbox.value =
+            person;
+
+
+        if(
+            selected.includes(person)
+        ){
+
+            checkbox.checked =
+                true;
+
+        }
+
+
+        const span =
+            document.createElement(
+                "span"
+            );
+
+
+        span.textContent =
+            person;
+
+
+        label.appendChild(
+            checkbox
+        );
+
+        label.appendChild(
+            span
+        );
+
+        box.appendChild(
+            label
+        );
 
     });
-
 }
 
 
@@ -1127,7 +1034,9 @@ function setStatus(
 ){
 
     const status =
-        document.getElementById("status");
+        document.getElementById(
+            "status"
+        );
 
 
     status.textContent =
@@ -1147,54 +1056,56 @@ function setStatus(
         );
 
     }
-
 }
 
 
 /* ==========================================================
-   REAL-TIME FIRESTORE
+   FIRESTORE REAL-TIME
 ========================================================== */
 
 onSnapshot(
-
     appointmentsRef,
 
     snapshot => {
 
         appointments =
-            snapshot.docs.map(item => ({
+            snapshot.docs.map(item => {
 
-                id:
-                    item.id,
-
-                ...item.data(),
-
-                attendees:
-                    normalizeAttendees(
-                        item.data().attendees
-                    )
-
-            }));
+                const data =
+                    item.data();
 
 
-        /*
-         เรียงวันที่ก่อน
-         แล้วเรียงเวลาภายในวัน
-        */
+                return {
 
-        appointments.sort((a,b) => {
+                    id:item.id,
 
-            const aValue =
-                `${a.date || ""} ${a.time || ""}`;
+                    ...data,
 
-            const bValue =
-                `${b.date || ""} ${b.time || ""}`;
+                    attendees:
+                        normalizeAttendees(
+                            data.attendees
+                        )
 
-            return aValue.localeCompare(
-                bValue
-            );
+                };
 
-        });
+            });
+
+
+        appointments.sort(
+            (a,b) => {
+
+                const aValue =
+                    `${a.date || ""} ${a.time || ""}`;
+
+                const bValue =
+                    `${b.date || ""} ${b.time || ""}`;
+
+                return aValue.localeCompare(
+                    bValue
+                );
+
+            }
+        );
 
 
         renderTable();
@@ -1208,7 +1119,6 @@ onSnapshot(
         );
 
     },
-
 
     error => {
 
@@ -1224,17 +1134,14 @@ onSnapshot(
         );
 
     }
-
 );
 
 
 /* ==========================================================
-   FORMAT DATE
+   DATE
 ========================================================== */
 
-function formatThaiDate(
-    dateString
-){
+function formatThaiDate(dateString){
 
     if(!dateString){
         return "-";
@@ -1243,8 +1150,7 @@ function formatThaiDate(
 
     const date =
         new Date(
-            dateString +
-            "T00:00:00"
+            dateString + "T00:00:00"
         );
 
 
@@ -1256,13 +1162,10 @@ function formatThaiDate(
             year:"numeric"
         }
     ).format(date);
-
 }
 
 
-function thaiDay(
-    dateString
-){
+function thaiDay(dateString){
 
     if(!dateString){
         return "";
@@ -1271,8 +1174,7 @@ function thaiDay(
 
     const date =
         new Date(
-            dateString +
-            "T00:00:00"
+            dateString + "T00:00:00"
         );
 
 
@@ -1282,17 +1184,10 @@ function thaiDay(
             weekday:"long"
         }
     ).format(date);
-
 }
 
 
-/* ==========================================================
-   TODAY
-========================================================== */
-
-function isToday(
-    dateString
-){
+function isToday(dateString){
 
     const now =
         new Date();
@@ -1310,10 +1205,7 @@ function isToday(
         ).padStart(2,"0");
 
 
-    return (
-        dateString === today
-    );
-
+    return dateString === today;
 }
 
 
@@ -1348,12 +1240,11 @@ function matchesSearch(
     return text.includes(
         search
     );
-
 }
 
 
 /* ==========================================================
-   RENDER TABLE
+   RENDER
 ========================================================== */
 
 function renderTable(){
@@ -1403,13 +1294,8 @@ function renderTable(){
         `;
 
         return;
-
     }
 
-
-    /*
-      รวมรายการตามวันที่
-    */
 
     const groups = {};
 
@@ -1417,15 +1303,10 @@ function renderTable(){
     filtered.forEach(item => {
 
         if(!groups[item.date]){
-
             groups[item.date] = [];
-
         }
 
-
-        groups[item.date].push(
-            item
-        );
+        groups[item.date].push(item);
 
     });
 
@@ -1443,183 +1324,160 @@ function renderTable(){
 
             html += `
 
-                <tr>
+            <tr>
 
-                    <td class="date-cell">
+                <td class="date-cell">
 
-                        <div class="date-main">
+                    <div class="date-main">
+                        ${formatThaiDate(date)}
+                    </div>
 
-                            ${formatThaiDate(date)}
+                    <div class="date-day">
+                        ${thaiDay(date)}
+                    </div>
 
-                        </div>
+                    ${
+                        isToday(date)
+                        ? `
+                            <span class="today">
+                                วันนี้
+                            </span>
+                          `
+                        : ""
+                    }
 
+                </td>
 
-                        <div class="date-day">
 
-                            ${thaiDay(date)}
+                <td>
 
-                        </div>
+                    ${
+                        items.map(item => `
 
+                            <div class="time-item">
+                                ${escapeHTML(item.time || "-")}
+                            </div>
 
-                        ${
-                            isToday(date)
-                                ? `
-                                    <span class="today">
-                                        วันนี้
-                                    </span>
-                                  `
-                                : ""
-                        }
+                        `).join("")
+                    }
 
-                    </td>
+                </td>
 
 
-                    <td>
+                <td>
 
-                        ${
-                            items.map(item => `
+                    ${
+                        items.map(item => `
 
-                                <div class="time-item">
+                            <div class="place-item">
+                                ${escapeHTML(item.place || "-")}
+                            </div>
 
-                                    ${escapeHTML(
-                                        item.time || "-"
-                                    )}
+                        `).join("")
+                    }
 
-                                </div>
+                </td>
 
-                            `).join("")
-                        }
 
-                    </td>
+                <td>
 
+                    ${
+                        items.map(item => `
 
-                    <td>
+                            <div class="subject-item">
+                                ${escapeHTML(item.subject || "-")}
+                            </div>
 
-                        ${
-                            items.map(item => `
+                        `).join("")
+                    }
 
-                                <div class="place-item">
+                </td>
 
-                                    ${escapeHTML(
-                                        item.place || "-"
-                                    )}
 
-                                </div>
+                <td>
 
-                            `).join("")
-                        }
+                    ${
+                        items.map(item => `
 
-                    </td>
+                            <div class="attendees">
 
+                                ${
+                                    normalizeAttendees(
+                                        item.attendees
+                                    )
+                                    .map(person => `
 
-                    <td>
+                                        <span
+                                            class="person ${
+                                                person === "ผอ.สุรศักดิ์"
+                                                ? "director"
+                                                : ""
+                                            }"
+                                        >
+                                            ${escapeHTML(person)}
+                                        </span>
 
-                        ${
-                            items.map(item => `
+                                    `)
+                                    .join("")
+                                }
 
-                                <div class="subject-item">
+                            </div>
 
-                                    ${escapeHTML(
-                                        item.subject || "-"
-                                    )}
+                        `).join("")
+                    }
 
-                                </div>
+                </td>
 
-                            `).join("")
-                        }
 
-                    </td>
+                <td>
 
+                    ${
+                        items.map(item => `
 
-                    <td>
+                            <div class="note-item">
+                                ${escapeHTML(item.note || "-")}
+                            </div>
 
-                        ${
-                            items.map(item => `
+                        `).join("")
+                    }
 
-                                <div class="attendees">
+                </td>
 
-                                    ${
-                                        normalizeAttendees(
-                                            item.attendees
-                                        )
-                                        .map(person => `
 
-                                            <span
-                                                class="person ${
-                                                    person ===
-                                                    "ผอ.สุรศักดิ์"
-                                                        ? "director"
-                                                        : ""
-                                                }"
-                                            >
+                <td>
 
-                                                ${escapeHTML(
-                                                    person
-                                                )}
+                    ${
+                        items.map(item => `
 
-                                            </span>
+                            <div class="action-group">
 
-                                        `)
-                                        .join("")
-                                    }
+                                <button
+                                    type="button"
+                                    class="icon-btn edit-btn"
+                                    data-action="edit"
+                                    data-id="${item.id}"
+                                >
+                                    ✏️ แก้ไข
+                                </button>
 
-                                </div>
 
-                            `).join("")
-                        }
+                                <button
+                                    type="button"
+                                    class="icon-btn delete-btn"
+                                    data-action="delete"
+                                    data-id="${item.id}"
+                                >
+                                    🗑️ ลบ
+                                </button>
 
-                    </td>
+                            </div>
 
+                        `).join("")
+                    }
 
-                    <td>
+                </td>
 
-                        ${
-                            items.map(item => `
-
-                                <div class="note-item">
-
-                                    ${escapeHTML(
-                                        item.note || "-"
-                                    )}
-
-                                </div>
-
-                            `).join("")
-                        }
-
-                    </td>
-
-
-                    <td>
-
-                        ${
-                            items.map(item => `
-
-                                <div class="action-group">
-
-                                    <button
-                                        class="icon-btn edit-btn"
-                                        onclick="editAppointment('${item.id}')"
-                                    >
-                                        ✏️ แก้ไข
-                                    </button>
-
-
-                                    <button
-                                        class="icon-btn delete-btn"
-                                        onclick="deleteAppointment('${item.id}')"
-                                    >
-                                        🗑️ ลบ
-                                    </button>
-
-                                </div>
-
-                            `).join("")
-                        }
-
-                    </td>
-
-                </tr>
+            </tr>
 
             `;
 
@@ -1628,8 +1486,55 @@ function renderTable(){
 
     body.innerHTML =
         html;
-
 }
+
+
+/* ==========================================================
+   ปุ่มแก้ไข / ลบ
+   ใช้ Event Delegation แทน onclick
+   เพื่อแก้ปัญหา type="module"
+========================================================== */
+
+document
+.getElementById("tableBody")
+.addEventListener(
+    "click",
+    event => {
+
+        const button =
+            event.target.closest(
+                "button[data-action]"
+            );
+
+
+        if(!button){
+            return;
+        }
+
+
+        const id =
+            button.dataset.id;
+
+
+        const action =
+            button.dataset.action;
+
+
+        if(action === "edit"){
+
+            editAppointment(id);
+
+        }
+
+
+        if(action === "delete"){
+
+            deleteAppointment(id);
+
+        }
+
+    }
+);
 
 
 /* ==========================================================
@@ -1649,9 +1554,7 @@ function updateStats(){
     ).textContent =
         appointments.filter(
             item =>
-                isToday(
-                    item.date
-                )
+                isToday(item.date)
         ).length;
 
 
@@ -1668,12 +1571,11 @@ function updateStats(){
         "dateCount"
     ).textContent =
         dates.size;
-
 }
 
 
 /* ==========================================================
-   OPEN ADD MODAL
+   ADD
 ========================================================== */
 
 function openAddModal(){
@@ -1692,6 +1594,12 @@ function openAddModal(){
     ).reset();
 
 
+    document.getElementById(
+        "date"
+    ).value =
+        todayString;
+
+
     buildPeopleList([]);
 
 
@@ -1700,12 +1608,11 @@ function openAddModal(){
     ).classList.add(
         "show"
     );
-
 }
 
 
 /* ==========================================================
-   CLOSE MODAL
+   CLOSE
 ========================================================== */
 
 function closeModal(){
@@ -1718,7 +1625,6 @@ function closeModal(){
 
 
     editingId = null;
-
 }
 
 
@@ -1726,7 +1632,7 @@ function closeModal(){
    EDIT
 ========================================================== */
 
-function editAppointment(id){
+async function editAppointment(id){
 
     const item =
         appointments.find(
@@ -1736,7 +1642,13 @@ function editAppointment(id){
 
 
     if(!item){
+
+        alert(
+            "ไม่พบข้อมูลนัดหมายนี้"
+        );
+
         return;
+
     }
 
 
@@ -1791,7 +1703,6 @@ function editAppointment(id){
     ).classList.add(
         "show"
     );
-
 }
 
 
@@ -1799,9 +1710,7 @@ function editAppointment(id){
    DELETE
 ========================================================== */
 
-async function deleteAppointment(
-    id
-){
+async function deleteAppointment(id){
 
     const item =
         appointments.find(
@@ -1811,13 +1720,24 @@ async function deleteAppointment(
 
 
     if(!item){
+
+        alert(
+            "ไม่พบข้อมูลนัดหมายนี้"
+        );
+
         return;
+
     }
 
 
     const confirmed =
         confirm(
-            `ต้องการลบนัดหมาย\n\n${item.subject || ""}\n\nใช่หรือไม่?`
+            "ต้องการลบนัดหมายนี้หรือไม่?\n\n" +
+            (item.subject || "") +
+            "\n" +
+            (item.date || "") +
+            " " +
+            (item.time || "")
         );
 
 
@@ -1836,19 +1756,26 @@ async function deleteAppointment(
             )
         );
 
+
+        alert(
+            "ลบนัดหมายเรียบร้อยแล้ว"
+        );
+
+
     }catch(error){
 
         console.error(
+            "Delete error:",
             error
         );
 
 
         alert(
-            "ลบข้อมูลไม่สำเร็จ"
+            "ลบข้อมูลไม่สำเร็จ\n\n" +
+            "กรุณาตรวจสอบ Firestore Rules"
         );
 
     }
-
 }
 
 
@@ -1930,6 +1857,11 @@ document
                     data
                 );
 
+
+                alert(
+                    "แก้ไขนัดหมายเรียบร้อยแล้ว"
+                );
+
             }else{
 
                 await addDoc(
@@ -1937,14 +1869,21 @@ document
                     data
                 );
 
+
+                alert(
+                    "เพิ่มนัดหมายเรียบร้อยแล้ว"
+                );
+
             }
 
 
             closeModal();
 
+
         }catch(error){
 
             console.error(
+                "Save error:",
                 error
             );
 
@@ -2030,8 +1969,7 @@ document.addEventListener(
     event => {
 
         if(
-            event.key ===
-            "Escape"
+            event.key === "Escape"
         ){
 
             closeModal();
