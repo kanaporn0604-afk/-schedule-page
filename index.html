@@ -3,484 +3,1348 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>ระบบตารางนัดหมาย | สำนักงานเจ้าท่าภูมิภาคสาขาชุมพร</title>
+
 <style>
+
+/* =========================
+   BASIC
+========================= */
+
 * {
     box-sizing: border-box;
 }
+
 body {
     margin: 0;
-    font-family: Arial, "Noto Sans Thai", sans-serif;
-    background: #f4f6f8;
-    color: #222;
+    font-family:
+        Arial,
+        "Noto Sans Thai",
+        "Tahoma",
+        sans-serif;
+
+    background:
+        linear-gradient(135deg, #eef5fa 0%, #f8fbfd 45%, #eef3f7 100%);
+
+    color: #17212b;
 }
-/* ===== HEADER ===== */
-header {
-    background: #123b5d;
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background:
+        linear-gradient(135deg, #062b49, #0b4d78 55%, #087ca5);
+
     color: white;
-    padding: 22px 20px;
+    padding: 28px 20px 32px;
+
+    position: relative;
+    overflow: hidden;
 }
+
+.header::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    right: -100px;
+    top: -160px;
+}
+
 .header-inner {
     max-width: 1400px;
     margin: auto;
+    position: relative;
+    z-index: 2;
 }
-header h1 {
-    margin: 0;
-    font-size: 25px;
-}
-header p {
-    margin: 7px 0 0;
-    font-size: 15px;
-    opacity: 0.9;
-}
-/* ===== CONTAINER ===== */
-.container {
-    max-width: 1400px;
-    margin: auto;
-    padding: 20px;
-}
-/* ===== TOP ===== */
-.top-section {
-    background: white;
-    border-radius: 10px;
-    padding: 18px;
-    margin-bottom: 18px;
-    border: 1px solid #ddd;
-}
-.top-row {
+
+.brand {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: 15px;
-    flex-wrap: wrap;
 }
-.today {
-    font-size: 16px;
-    color: #555;
-}
-.today strong {
-    color: #123b5d;
-}
-/* ===== BUTTON ===== */
-button {
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-}
-.btn-add {
-    background: #123b5d;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 7px;
-    font-size: 16px;
-}
-.btn-add:hover {
-    background: #0d2d47;
-}
-/* ===== SEARCH ===== */
-.search-box {
-    margin-top: 15px;
-}
-.search-box input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    font-size: 15px;
-}
-/* ===== STATS ===== */
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 18px;
-}
-.stat {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-}
-.stat-number {
-    font-size: 25px;
-    font-weight: bold;
-    color: #123b5d;
-}
-.stat-title {
-    color: #666;
-    margin-top: 4px;
-}
-/* ===== TABLE ===== */
-.table-wrapper {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    overflow-x: auto;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 950px;
-}
-thead {
-    background: #123b5d;
-    color: white;
-}
-th {
-    padding: 14px 10px;
-    font-size: 15px;
-    text-align: left;
-    white-space: nowrap;
-}
-td {
-    padding: 12px 10px;
-    border-bottom: 1px solid #e5e5e5;
-    vertical-align: top;
-    font-size: 14px;
-}
-tbody tr:hover {
-    background: #f8fafc;
-}
-/* วันที่ */
-.date-cell {
-    font-weight: bold;
-    color: #123b5d;
-    background: #f1f6fa;
-    white-space: nowrap;
-}
-/* รายการภายในวันเดียวกัน */
-.appointment {
-    padding: 10px 0;
-    border-bottom: 1px dashed #ccc;
-}
-.appointment:last-child {
-    border-bottom: none;
-}
-.appointment-time {
-    font-weight: bold;
-    color: #123b5d;
-    margin-bottom: 4px;
-}
-.appointment-subject {
-    font-weight: bold;
-    margin-bottom: 4px;
-}
-.place {
-    color: #555;
-}
-.attendees {
-    line-height: 1.7;
-}
-.note {
-    color: #666;
-}
-/* ===== ACTION ===== */
-.action-buttons {
-    display: flex;
-    gap: 6px;
-    white-space: nowrap;
-}
-.btn-edit {
-    background: #e8f1f8;
-    color: #123b5d;
-    padding: 7px 11px;
-    border-radius: 5px;
-}
-.btn-delete {
-    background: #fdecec;
-    color: #b42318;
-    padding: 7px 11px;
-    border-radius: 5px;
-}
-/* ===== EMPTY ===== */
-.empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: #777;
-}
-/* ===== MODAL ===== */
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 1000;
-    padding: 20px;
-    overflow-y: auto;
-}
-.modal.show {
+
+.brand-icon {
+    width: 58px;
+    height: 58px;
+
+    background: rgba(255,255,255,0.14);
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    border-radius: 16px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
+    font-size: 30px;
+
+    backdrop-filter: blur(10px);
 }
-.modal-box {
-    width: 100%;
-    max-width: 700px;
-    background: white;
-    border-radius: 12px;
-    padding: 22px;
+
+.brand h1 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 700;
 }
-.modal-title {
-    font-size: 21px;
-    font-weight: bold;
-    color: #123b5d;
-    margin-bottom: 18px;
+
+.brand p {
+    margin: 5px 0 0;
+    opacity: 0.85;
+    font-size: 14px;
 }
-.form-group {
-    margin-bottom: 15px;
-}
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 6px;
-}
-input,
-textarea,
-select {
-    width: 100%;
-    padding: 11px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 15px;
-    font-family: inherit;
-}
-textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-/* ===== FORM ROW ===== */
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-/* ===== PARTICIPANTS ===== */
-.participant-tools {
+
+.header-bottom {
+    margin-top: 25px;
+
     display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    gap: 20px;
 }
-.participant-tools button {
-    padding: 6px 10px;
-    border-radius: 5px;
-    background: #eee;
+
+.page-title {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 800;
 }
-.participants {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 10px;
-    max-height: 220px;
-    overflow-y: auto;
+
+.page-subtitle {
+    margin: 6px 0 0;
+    opacity: 0.82;
+    font-size: 15px;
 }
-.participant {
-    padding: 5px 0;
+
+.current-date {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 12px 16px;
+    border-radius: 12px;
+    text-align: right;
+    min-width: 230px;
 }
-.participant label {
+
+.current-date-label {
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+.current-date-value {
+    margin-top: 4px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 25px 20px 50px;
+}
+
+
+/* =========================
+   ACTION BAR
+========================= */
+
+.action-bar {
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    border: 1px solid #dce5ec;
+
+    box-shadow:
+        0 8px 30px rgba(13, 56, 84, 0.07);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.search {
+    flex: 1;
+    position: relative;
+}
+
+.search input {
+    width: 100%;
+
+    padding: 14px 16px 14px 44px;
+
+    border: 1px solid #d5dfe7;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    background: #f8fafc;
+}
+
+.search input:focus {
+    border-color: #087ca5;
+    background: white;
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 13px;
+    font-size: 18px;
+}
+
+.add-button {
+    border: none;
+
+    background:
+        linear-gradient(135deg, #087ca5, #07527f);
+
+    color: white;
+
+    padding: 14px 22px;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(8,124,165,0.22);
+
+    transition: 0.2s;
+}
+
+.add-button:hover {
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 16px;
+
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    background: white;
+
+    border: 1px solid #dce5ec;
+
+    border-radius: 18px;
+
+    padding: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    box-shadow:
+        0 8px 30px rgba(13, 56, 84, 0.06);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.stat-card::after {
+    content: "";
+    position: absolute;
+
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+
+    background: rgba(8,124,165,0.06);
+
+    right: -35px;
+    bottom: -45px;
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 14px;
+
+    background: #e8f5fa;
+
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: normal;
-    margin: 0;
+    justify-content: center;
+
+    font-size: 23px;
+
+    flex-shrink: 0;
 }
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #07527f;
+}
+
+.stat-label {
+    color: #697783;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+
+/* =========================
+   TABLE CONTAINER
+========================= */
+
+.schedule-card {
+    background: white;
+
+    border: 1px solid #dce5ec;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 35px rgba(13, 56, 84, 0.07);
+}
+
+.schedule-header {
+    padding: 20px 22px;
+
+    border-bottom: 1px solid #e5ebf0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+}
+
+.schedule-header h2 {
+    margin: 0;
+
+    font-size: 20px;
+
+    color: #123b5d;
+}
+
+.schedule-header p {
+    margin: 4px 0 0;
+
+    color: #75828c;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-scroll {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 1050px;
+}
+
+thead {
+    background:
+        linear-gradient(
+            90deg,
+            #073b60,
+            #08698f
+        );
+
+    color: white;
+}
+
+th {
+    padding: 15px 12px;
+
+    font-size: 14px;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+td {
+    padding: 0;
+
+    border-bottom: 1px solid #e7edf2;
+
+    vertical-align: top;
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+.date-cell {
+    width: 150px;
+
+    background: #f2f8fb;
+
+    padding: 20px 15px !important;
+
+    color: #07527f;
+
+    font-weight: bold;
+
+    border-right: 1px solid #e2eaf0;
+}
+
+.date-day {
+    font-size: 25px;
+    line-height: 1;
+}
+
+.date-month {
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.date-week {
+    margin-top: 8px;
+    color: #6c7b86;
+    font-size: 13px;
+}
+
+
+/* =========================
+   APPOINTMENT
+========================= */
+
+.appointment {
+    padding: 16px 12px;
+
+    border-bottom: 1px dashed #dbe3e9;
+
+    min-height: 92px;
+}
+
+.appointment:last-child {
+    border-bottom: none;
+}
+
+.time-badge {
+    display: inline-block;
+
+    background: #e9f7fb;
+
+    color: #056889;
+
+    border: 1px solid #c8eaf3;
+
+    border-radius: 8px;
+
+    padding: 7px 10px;
+
+    font-weight: bold;
+
+    font-size: 14px;
+
+    white-space: nowrap;
+}
+
+.subject {
+    font-weight: bold;
+
+    color: #17212b;
+
+    line-height: 1.5;
+
+    margin-bottom: 5px;
+}
+
+.place {
+    color: #65747f;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+.attendees {
+    color: #42515c;
+
+    line-height: 1.7;
+
+    font-size: 13px;
+}
+
+.attendees:first-letter {
+    color: #087ca5;
+}
+
+.note {
+    color: #6b7780;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+.action {
+    padding: 16px 10px !important;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.edit-button,
+.delete-button {
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 8px 10px;
+
+    cursor: pointer;
+
+    font-family: inherit;
+}
+
+.edit-button {
+    background: #e8f3f9;
+    color: #07527f;
+}
+
+.delete-button {
+    background: #fff0f0;
+    color: #b42318;
+}
+
+.edit-button:hover {
+    background: #d8edf7;
+}
+
+.delete-button:hover {
+    background: #ffe1e1;
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty {
+    text-align: center;
+
+    padding: 60px 20px !important;
+
+    color: #778590;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(4, 28, 43, 0.58);
+
+    z-index: 9999;
+
+    padding: 20px;
+
+    overflow-y: auto;
+}
+
+.modal.show {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.modal-box {
+    width: 100%;
+
+    max-width: 720px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,0.25);
+}
+
+.modal-title {
+    font-size: 23px;
+
+    font-weight: bold;
+
+    color: #123b5d;
+
+    margin-bottom: 5px;
+}
+
+.modal-description {
+    color: #75828c;
+
+    font-size: 13px;
+
+    margin-bottom: 22px;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-row {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 14px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+label {
+    display: block;
+
+    font-weight: bold;
+
+    font-size: 14px;
+
+    margin-bottom: 7px;
+
+    color: #26343e;
+}
+
+input,
+textarea {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #d2dce3;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    font-family: inherit;
+
+    font-size: 15px;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #087ca5;
+
+    box-shadow:
+        0 0 0 3px rgba(8,124,165,0.08);
+}
+
+textarea {
+    resize: vertical;
+
+    min-height: 85px;
+}
+
+
+/* =========================
+   PARTICIPANTS
+========================= */
+
+.participant-tools {
+    display: flex;
+
+    gap: 7px;
+
+    margin-bottom: 8px;
+}
+
+.participant-tools button {
+    border: none;
+
+    background: #edf2f5;
+
+    color: #33424c;
+
+    padding: 7px 10px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+.participants {
+    border: 1px solid #d8e1e7;
+
+    border-radius: 10px;
+
+    padding: 10px;
+
+    max-height: 220px;
+
+    overflow-y: auto;
+}
+
+.participant {
+    padding: 5px 2px;
+}
+
+.participant label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-weight: normal;
+
+    margin: 0;
+
+    cursor: pointer;
+}
+
 .participant input {
     width: auto;
 }
-/* ===== MODAL BUTTONS ===== */
+
+
+/* =========================
+   MODAL BUTTON
+========================= */
+
 .modal-buttons {
     display: flex;
+
     justify-content: flex-end;
+
     gap: 8px;
-    margin-top: 20px;
+
+    margin-top: 22px;
 }
-.btn-cancel {
-    background: #eee;
-    color: #333;
-    padding: 10px 18px;
-    border-radius: 6px;
+
+.cancel-button,
+.save-button {
+    border: none;
+
+    padding: 12px 20px;
+
+    border-radius: 9px;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    cursor: pointer;
 }
-.btn-save {
-    background: #123b5d;
+
+.cancel-button {
+    background: #edf0f2;
+
+    color: #37434b;
+}
+
+.save-button {
+    background:
+        linear-gradient(
+            135deg,
+            #087ca5,
+            #07527f
+        );
+
     color: white;
-    padding: 10px 20px;
-    border-radius: 6px;
+
+    font-weight: bold;
 }
-/* ===== MOBILE ===== */
-@media (max-width: 700px) {
-    header {
-        padding: 18px 15px;
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    .header {
+        padding: 22px 15px 25px;
     }
-    header h1 {
+
+    .brand h1 {
         font-size: 20px;
     }
-    header p {
-        font-size: 13px;
+
+    .brand-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
     }
-    .container {
-        padding: 12px;
-    }
-    .stats {
-        grid-template-columns: 1fr 1fr;
-    }
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-    .btn-add {
-        width: 100%;
-    }
-    .top-row {
+
+    .header-bottom {
         display: block;
     }
-    .today {
-        margin-bottom: 12px;
+
+    .page-title {
+        font-size: 28px;
     }
-}
-@media (max-width: 450px) {
+
+    .current-date {
+        margin-top: 15px;
+        text-align: left;
+        width: 100%;
+    }
+
+    .container {
+        padding: 15px 12px 35px;
+    }
+
+    .action-bar {
+        display: block;
+        padding: 14px;
+    }
+
+    .add-button {
+        width: 100%;
+        margin-top: 10px;
+    }
+
     .stats {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
+    }
+
+    .stat-card {
+        padding: 16px;
+    }
+
+    .schedule-header {
+        padding: 16px;
+    }
+
+    .schedule-header h2 {
+        font-size: 18px;
+    }
+
+    .form-row {
+        grid-template-columns:
+            1fr;
+    }
+
+    .modal {
+        padding: 10px;
+    }
+
+    .modal-box {
+        padding: 18px;
+        border-radius: 15px;
     }
 }
+
 </style>
 </head>
+
 <body>
-<header>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
     <div class="header-inner">
-        <h1>ระบบตารางนัดหมาย</h1>
-        <p>สำนักงานเจ้าท่าภูมิภาคสาขาชุมพร</p>
-    </div>
-</header>
-<div class="container">
-    <!-- TOP -->
-    <div class="top-section">
-        <div class="top-row">
-            <div class="today">
-                วันนี้
-                <strong id="todayText"></strong>
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ⚓
             </div>
-            <button class="btn-add" onclick="openAddModal()">
-                ＋ เพิ่มนัดหมาย
-            </button>
+
+            <div>
+                <h1>
+                    สำนักงานเจ้าท่าภูมิภาคสาขาชุมพร
+                </h1>
+
+                <p>
+                    ระบบบริหารจัดการตารางนัดหมาย
+                </p>
+            </div>
+
         </div>
-        <div class="search-box">
+
+
+        <div class="header-bottom">
+
+            <div>
+
+                <h2 class="page-title">
+                    ตารางนัดหมาย
+                </h2>
+
+                <p class="page-subtitle">
+                    ดูและจัดการนัดหมายทั้งหมดของสำนักงาน
+                </p>
+
+            </div>
+
+
+            <div class="current-date">
+
+                <div class="current-date-label">
+                    วันนี้
+                </div>
+
+                <div
+                    class="current-date-value"
+                    id="todayText">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+
+    <!-- ACTION -->
+
+    <section class="action-bar">
+
+        <div class="search">
+
+            <span class="search-icon">
+                🔎
+            </span>
+
             <input
                 type="text"
                 id="searchInput"
-                placeholder="ค้นหา วันที่ เวลา สถานที่ เรื่อง หรือผู้เข้าร่วม..."
+                placeholder="ค้นหาวันที่ เรื่อง สถานที่ หรือผู้เข้าร่วม..."
                 oninput="renderTable()"
             >
+
         </div>
-    </div>
+
+
+        <button
+            class="add-button"
+            onclick="openAddModal()">
+
+            ＋ เพิ่มนัดหมาย
+
+        </button>
+
+    </section>
+
+
+
     <!-- STATS -->
-    <div class="stats">
-        <div class="stat">
-            <div class="stat-number" id="todayCount">0</div>
-            <div class="stat-title">นัดหมายวันนี้</div>
-        </div>
-        <div class="stat">
-            <div class="stat-number" id="totalCount">0</div>
-            <div class="stat-title">รายการทั้งหมด</div>
-        </div>
-        <div class="stat">
-            <div class="stat-number" id="dateCount">0</div>
-            <div class="stat-title">วันที่มีนัดหมาย</div>
-        </div>
-    </div>
-    <!-- TABLE -->
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 110px;">วันที่</th>
-                    <th style="width: 90px;">เวลา</th>
-                    <th style="width: 150px;">สถานที่</th>
-                    <th>เรื่อง / ภารกิจ</th>
-                    <th style="width: 260px;">ผู้เข้าร่วม</th>
-                    <th style="width: 150px;">หมายเหตุ</th>
-                    <th style="width: 130px;">จัดการ</th>
-                </tr>
-            </thead>
-            <tbody id="scheduleBody"></tbody>
-        </table>
-    </div>
-</div>
-<!-- ================= MODAL ================= -->
-<div class="modal" id="appointmentModal">
-    <div class="modal-box">
-        <div class="modal-title" id="modalTitle">
-            เพิ่มนัดหมาย
-        </div>
-        <form id="appointmentForm">
-            <input type="hidden" id="editId">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>วันที่</label>
-                    <input type="date" id="date" required>
-                </div>
-                <div class="form-group">
-                    <label>เวลา</label>
-                    <input type="time" id="time" required>
-                </div>
+
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📅
             </div>
+
+            <div>
+
+                <div
+                    class="stat-number"
+                    id="todayCount">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    นัดหมายวันนี้
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📋
+            </div>
+
+            <div>
+
+                <div
+                    class="stat-number"
+                    id="totalCount">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    รายการทั้งหมด
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🗓️
+            </div>
+
+            <div>
+
+                <div
+                    class="stat-number"
+                    id="dateCount">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    วันที่มีนัดหมาย
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- SCHEDULE -->
+
+    <section class="schedule-card">
+
+        <div class="schedule-header">
+
+            <div>
+
+                <h2>
+                    📌 รายการนัดหมาย
+                </h2>
+
+                <p>
+                    วันที่เดียวกันจะแสดงรวมอยู่ในกลุ่มเดียวกัน
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-scroll">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th style="width:150px;">
+                            วันที่
+                        </th>
+
+                        <th style="width:100px;">
+                            เวลา
+                        </th>
+
+                        <th style="width:150px;">
+                            สถานที่
+                        </th>
+
+                        <th>
+                            เรื่อง / ภารกิจ
+                        </th>
+
+                        <th style="width:270px;">
+                            ผู้เข้าร่วม
+                        </th>
+
+                        <th style="width:160px;">
+                            หมายเหตุ
+                        </th>
+
+                        <th style="width:120px;">
+                            จัดการ
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="scheduleBody">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<!-- =========================
+     MODAL
+========================= -->
+
+<div
+    class="modal"
+    id="appointmentModal">
+
+    <div class="modal-box">
+
+        <div class="modal-title"
+             id="modalTitle">
+
+            เพิ่มนัดหมาย
+
+        </div>
+
+        <div class="modal-description">
+
+            กรอกรายละเอียดนัดหมายให้ครบถ้วน
+
+        </div>
+
+
+        <form id="appointmentForm">
+
+            <input
+                type="hidden"
+                id="editId"
+            >
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+                        วันที่
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        เวลา
+                    </label>
+
+                    <input
+                        type="time"
+                        id="time"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+
             <div class="form-group">
-                <label>สถานที่</label>
+
+                <label>
+                    สถานที่
+                </label>
+
                 <input
                     type="text"
                     id="place"
-                    placeholder="เช่น ห้องประชุม / ท่าเรือ..."
+                    placeholder="เช่น ห้องประชุม / ท่าเรือ / สำนักงาน"
                     required
                 >
+
             </div>
+
+
+
             <div class="form-group">
-                <label>เรื่อง / ภารกิจ</label>
+
+                <label>
+                    เรื่อง / ภารกิจ
+                </label>
+
                 <textarea
                     id="subject"
-                    placeholder="กรอกเรื่องหรือภารกิจ"
+                    placeholder="กรอกเรื่องหรือรายละเอียดภารกิจ"
                     required
                 ></textarea>
+
             </div>
+
+
+
             <div class="form-group">
-                <label>ผู้เข้าร่วม</label>
+
+                <label>
+                    ผู้เข้าร่วม
+                </label>
+
+
                 <div class="participant-tools">
-                    <button type="button" onclick="selectAllParticipants()">
+
+                    <button
+                        type="button"
+                        onclick="selectAllParticipants()">
+
                         เลือกทั้งหมด
+
                     </button>
-                    <button type="button" onclick="clearParticipants()">
+
+
+                    <button
+                        type="button"
+                        onclick="clearParticipants()">
+
                         ล้างทั้งหมด
+
                     </button>
+
                 </div>
-                <div class="participants" id="participantsList"></div>
+
+
+                <div
+                    class="participants"
+                    id="participantsList">
+                </div>
+
             </div>
+
+
+
             <div class="form-group">
-                <label>หมายเหตุ</label>
+
+                <label>
+                    หมายเหตุ
+                </label>
+
                 <textarea
                     id="note"
-                    placeholder="ถ้ามีรายละเอียดเพิ่มเติม"
+                    placeholder="รายละเอียดเพิ่มเติม (ถ้ามี)"
                 ></textarea>
+
             </div>
+
+
+
             <div class="modal-buttons">
+
                 <button
                     type="button"
-                    class="btn-cancel"
-                    onclick="closeModal()"
-                >
+                    class="cancel-button"
+                    onclick="closeModal()">
+
                     ยกเลิก
+
                 </button>
+
+
                 <button
                     type="submit"
-                    class="btn-save"
-                >
-                    บันทึก
+                    class="save-button">
+
+                    บันทึกนัดหมาย
+
                 </button>
+
             </div>
+
         </form>
+
     </div>
+
 </div>
+
+
+
 <script>
-/* ==========================================
+
+/* =====================================================
    รายชื่อผู้เข้าร่วม
-========================================== */
+===================================================== */
+
 const participants = [
+
     "ผอ.สุรศักดิ์",
+
     "คุณปานขวัญ",
     "คุณสรศักดิ์",
     "คุณนฤมล",
@@ -503,56 +1367,149 @@ const participants = [
     "คุณสุวรรณี",
     "คุณธัชพงศ์",
     "คุณทนงศักดิ์"
+
 ];
-/* ==========================================
-   LOCAL STORAGE
-========================================== */
-const STORAGE_KEY = "chumphon_schedule_simple_v1";
-let appointments = JSON.parse(
-    localStorage.getItem(STORAGE_KEY) || "[]"
-);
-/* ==========================================
-   ทำข้อมูลเก่าให้เป็นรูปแบบใหม่
-========================================== */
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+const STORAGE_KEY =
+    "chumphon_schedule_modern_v2";
+
+
+let appointments =
+    JSON.parse(
+        localStorage.getItem(STORAGE_KEY)
+        || "[]"
+    );
+
+
+/* =====================================================
+   NORMALIZE DATA
+===================================================== */
+
 function normalizeData() {
-    appointments = appointments.map(item => {
-        if (!item.id) {
-            item.id =
-                Date.now().toString() +
-                Math.random().toString(16).slice(2);
-        }
-        if (!Array.isArray(item.attendees)) {
+
+    appointments =
+        appointments.map(item => {
+
+            if (!item.id) {
+
+                item.id =
+                    Date.now().toString()
+                    +
+                    Math.random()
+                        .toString(16)
+                        .slice(2);
+
+            }
+
+
+            if (!Array.isArray(item.attendees)) {
+
+                item.attendees =
+                    item.attendees
+                        ? [item.attendees]
+                        : [];
+
+            }
+
+
             item.attendees =
-                item.attendees
-                    ? [item.attendees]
-                    : [];
-        }
-        item.attendees =
-            item.attendees.filter(Boolean);
-        /* ผอ.ต้องเป็นคนแรกเสมอ */
-        item.attendees =
-            item.attendees.filter(
-                name => name !== "ผอ.สุรศักดิ์"
+                item.attendees.filter(
+                    name =>
+                        name !== "ผอ.สุรศักดิ์"
+                );
+
+
+            /* ผอ.ต้องเป็นคนแรก */
+
+            item.attendees.unshift(
+                "ผอ.สุรศักดิ์"
             );
-        item.attendees.unshift("ผอ.สุรศักดิ์");
-        return item;
-    });
+
+
+            return item;
+
+        });
+
+
     saveData();
+
 }
-/* ==========================================
+
+
+/* =====================================================
    SAVE
-========================================== */
+===================================================== */
+
 function saveData() {
+
     localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify(appointments)
     );
+
 }
-/* ==========================================
-   วันที่ภาษาไทย
-========================================== */
+
+
+/* =====================================================
+   ID
+===================================================== */
+
+function createId() {
+
+    return (
+        Date.now().toString()
+        +
+        Math.random()
+            .toString(16)
+            .slice(2)
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(text) {
+
+    if (
+        text === null ||
+        text === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   THAI DATE
+===================================================== */
+
 function formatThaiDate(dateString) {
-    const date = new Date(dateString + "T00:00:00");
+
+    const date =
+        new Date(
+            dateString + "T00:00:00"
+        );
+
+
     const days = [
         "อาทิตย์",
         "จันทร์",
@@ -562,6 +1519,8 @@ function formatThaiDate(dateString) {
         "ศุกร์",
         "เสาร์"
     ];
+
+
     const months = [
         "มกราคม",
         "กุมภาพันธ์",
@@ -576,449 +1535,1006 @@ function formatThaiDate(dateString) {
         "พฤศจิกายน",
         "ธันวาคม"
     ];
-    const year = date.getFullYear() + 543;
-    return `วัน${days[date.getDay()]}ที่ ${date.getDate()} ${months[date.getMonth()]} ${year}`;
+
+
+    const year =
+        date.getFullYear() + 543;
+
+
+    return {
+        day:
+            date.getDate(),
+
+        month:
+            months[date.getMonth()],
+
+        year:
+            year,
+
+        week:
+            "วัน" +
+            days[date.getDay()]
+    };
+
 }
-/* ==========================================
-   แสดงวันนี้
-========================================== */
+
+
+/* =====================================================
+   TODAY
+===================================================== */
+
+function getTodayString() {
+
+    const now =
+        new Date();
+
+
+    return (
+        now.getFullYear()
+        +
+        "-"
+        +
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0")
+        +
+        "-"
+        +
+        String(
+            now.getDate()
+        ).padStart(2, "0")
+    );
+
+}
+
+
+/* =====================================================
+   SHOW TODAY
+===================================================== */
+
 function showToday() {
-    const now = new Date();
+
     const date =
-        now.getFullYear() +
-        "-" +
-        String(now.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(now.getDate()).padStart(2, "0");
-    document.getElementById("todayText").textContent =
-        formatThaiDate(date);
+        formatThaiDate(
+            getTodayString()
+        );
+
+
+    document.getElementById(
+        "todayText"
+    ).textContent =
+        `${date.day} ${date.month} ${date.year}`;
+
 }
-/* ==========================================
-   สร้าง ID
-========================================== */
-function createId() {
-    return Date.now().toString() +
-        Math.random().toString(16).slice(2);
+
+
+/* =====================================================
+   TIME
+===================================================== */
+
+function formatTime(time) {
+
+    if (!time) {
+        return "";
+    }
+
+    return time + " น.";
+
 }
-/* ==========================================
-   เรียงข้อมูล
-========================================== */
+
+
+/* =====================================================
+   SORT
+===================================================== */
+
 function sortAppointments() {
-    appointments.sort((a, b) => {
-        const dateCompare =
-            a.date.localeCompare(b.date);
-        if (dateCompare !== 0) {
-            return dateCompare;
+
+    appointments.sort(
+        (a, b) => {
+
+            const dateCompare =
+                a.date.localeCompare(
+                    b.date
+                );
+
+
+            if (dateCompare !== 0) {
+
+                return dateCompare;
+
+            }
+
+
+            return a.time.localeCompare(
+                b.time
+            );
+
         }
-        return a.time.localeCompare(b.time);
-    });
+    );
+
 }
-/* ==========================================
-   แสดงตาราง
-========================================== */
+
+
+/* =====================================================
+   RENDER TABLE
+===================================================== */
+
 function renderTable() {
+
     sortAppointments();
+
+
     const tbody =
-        document.getElementById("scheduleBody");
+        document.getElementById(
+            "scheduleBody"
+        );
+
+
     tbody.innerHTML = "";
+
+
     const search =
-        document.getElementById("searchInput")
+        document.getElementById(
+            "searchInput"
+        )
         .value
         .toLowerCase()
         .trim();
-    /* ค้นหา */
-    let filtered = appointments.filter(item => {
-        const text = [
-            item.date,
-            item.time,
-            item.place,
-            item.subject,
-            item.note,
-            ...(item.attendees || [])
-        ].join(" ").toLowerCase();
-        return text.includes(search);
-    });
-    /* แบ่งตามวันที่ */
+
+
+    const filtered =
+        appointments.filter(item => {
+
+            const text = [
+
+                item.date,
+                item.time,
+                item.place,
+                item.subject,
+                item.note,
+                ...(item.attendees || [])
+
+            ]
+            .join(" ")
+            .toLowerCase();
+
+
+            return text.includes(search);
+
+        });
+
+
     const groups = {};
+
+
     filtered.forEach(item => {
+
         if (!groups[item.date]) {
+
             groups[item.date] = [];
+
         }
+
         groups[item.date].push(item);
+
     });
-    const dates = Object.keys(groups);
+
+
+    const dates =
+        Object.keys(groups);
+
+
     if (dates.length === 0) {
+
         tbody.innerHTML = `
+
             <tr>
-                <td colspan="7" class="empty">
+
+                <td
+                    colspan="7"
+                    class="empty">
+
+                    📅
+                    <br><br>
+
                     ยังไม่มีรายการนัดหมาย
+
                 </td>
+
             </tr>
+
         `;
+
         updateStats();
+
         return;
+
     }
-    /* สร้างแถว */
+
+
+
     dates.forEach(date => {
-        const items = groups[date];
-        const tr = document.createElement("tr");
-        /* วันที่ */
+
+        const items =
+            groups[date];
+
+
+        const tr =
+            document.createElement("tr");
+
+
+        /* =====================
+           DATE
+        ===================== */
+
+        const dateInfo =
+            formatThaiDate(date);
+
+
         const dateTd =
             document.createElement("td");
-        dateTd.className = "date-cell";
-        dateTd.innerHTML =
-            formatThaiDate(date);
+
+
+        dateTd.className =
+            "date-cell";
+
+
+        dateTd.innerHTML = `
+
+            <div class="date-day">
+                ${dateInfo.day}
+            </div>
+
+            <div class="date-month">
+                ${dateInfo.month}
+                ${dateInfo.year}
+            </div>
+
+            <div class="date-week">
+                ${dateInfo.week}
+            </div>
+
+        `;
+
+
         tr.appendChild(dateTd);
-        /* เวลา */
+
+
+
+        /* =====================
+           TIME
+        ===================== */
+
         const timeTd =
             document.createElement("td");
+
+
         timeTd.innerHTML =
             items.map(item => `
+
                 <div class="appointment">
-                    <div class="appointment-time">
-                        ${formatTime(item.time)}
-                    </div>
+
+                    <span class="time-badge">
+
+                        ${formatTime(
+                            item.time
+                        )}
+
+                    </span>
+
                 </div>
-            `).join("");
+
+            `)
+            .join("");
+
+
         tr.appendChild(timeTd);
-        /* สถานที่ */
+
+
+
+        /* =====================
+           PLACE
+        ===================== */
+
         const placeTd =
             document.createElement("td");
+
+
         placeTd.innerHTML =
             items.map(item => `
+
                 <div class="appointment">
+
                     <div class="place">
-                        ${escapeHTML(item.place)}
+
+                        📍
+                        ${escapeHTML(
+                            item.place
+                        )}
+
                     </div>
+
                 </div>
-            `).join("");
+
+            `)
+            .join("");
+
+
         tr.appendChild(placeTd);
-        /* เรื่อง */
+
+
+
+        /* =====================
+           SUBJECT
+        ===================== */
+
         const subjectTd =
             document.createElement("td");
+
+
         subjectTd.innerHTML =
             items.map(item => `
+
                 <div class="appointment">
-                    <div class="appointment-subject">
-                        ${escapeHTML(item.subject)}
+
+                    <div class="subject">
+
+                        ${escapeHTML(
+                            item.subject
+                        )}
+
                     </div>
+
+                    <div class="place">
+
+                        ${item.note
+                            ? "📝 " +
+                              escapeHTML(
+                                  item.note
+                              )
+                            : ""
+                        }
+
+                    </div>
+
                 </div>
-            `).join("");
+
+            `)
+            .join("");
+
+
         tr.appendChild(subjectTd);
-        /* ผู้เข้าร่วม */
+
+
+
+        /* =====================
+           ATTENDEES
+        ===================== */
+
         const attendeesTd =
             document.createElement("td");
+
+
         attendeesTd.innerHTML =
-            items.map(item => {
-                const names =
-                    item.attendees || [];
-                return `
-                    <div class="appointment attendees">
-                        ${names.map(name =>
+            items.map(item => `
+
+                <div class="appointment">
+
+                    <div class="attendees">
+
+                        👤
+                        ${(
+                            item.attendees
+                            || []
+                        )
+                        .map(name =>
                             escapeHTML(name)
-                        ).join(", ")}
+                        )
+                        .join(", ")}
+
                     </div>
-                `;
-            }).join("");
+
+                </div>
+
+            `)
+            .join("");
+
+
         tr.appendChild(attendeesTd);
-        /* หมายเหตุ */
+
+
+
+        /* =====================
+           NOTE
+        ===================== */
+
         const noteTd =
             document.createElement("td");
+
+
         noteTd.innerHTML =
             items.map(item => `
-                <div class="appointment note">
-                    ${escapeHTML(item.note || "-")}
+
+                <div class="appointment">
+
+                    <div class="note">
+
+                        ${
+                            item.note
+                            ? escapeHTML(
+                                item.note
+                              )
+                            : "-"
+                        }
+
+                    </div>
+
                 </div>
-            `).join("");
+
+            `)
+            .join("");
+
+
         tr.appendChild(noteTd);
-        /* จัดการ */
+
+
+
+        /* =====================
+           ACTION
+        ===================== */
+
         const actionTd =
             document.createElement("td");
+
+
+        actionTd.className =
+            "action";
+
+
         actionTd.innerHTML =
             items.map(item => `
+
                 <div class="appointment">
+
                     <div class="action-buttons">
+
                         <button
-                            class="btn-edit"
-                            onclick="editAppointment('${item.id}')"
-                        >
+                            class="edit-button"
+                            onclick="editAppointment('${item.id}')">
+
                             แก้ไข
+
                         </button>
+
+
                         <button
-                            class="btn-delete"
-                            onclick="deleteAppointment('${item.id}')"
-                        >
+                            class="delete-button"
+                            onclick="deleteAppointment('${item.id}')">
+
                             ลบ
+
                         </button>
+
                     </div>
+
                 </div>
-            `).join("");
+
+            `)
+            .join("");
+
+
         tr.appendChild(actionTd);
+
+
         tbody.appendChild(tr);
+
     });
+
+
     updateStats();
+
 }
-/* ==========================================
-   แปลงเวลา
-========================================== */
-function formatTime(time) {
-    if (!time) return "";
-    return time + " น.";
-}
-/* ==========================================
-   Escape HTML
-========================================== */
-function escapeHTML(text) {
-    if (text === null || text === undefined) {
-        return "";
-    }
-    return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-/* ==========================================
-   สถิติ
-========================================== */
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
 function updateStats() {
+
     const today =
-        new Date();
-    const todayString =
-        today.getFullYear() +
-        "-" +
-        String(today.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(today.getDate()).padStart(2, "0");
+        getTodayString();
+
+
     const todayCount =
         appointments.filter(
-            item => item.date === todayString
+            item =>
+                item.date === today
         ).length;
+
+
     const uniqueDates =
         new Set(
             appointments.map(
-                item => item.date
+                item =>
+                    item.date
             )
         );
-    document.getElementById("todayCount")
-        .textContent = todayCount;
-    document.getElementById("totalCount")
-        .textContent = appointments.length;
-    document.getElementById("dateCount")
-        .textContent = uniqueDates.size;
+
+
+    document.getElementById(
+        "todayCount"
+    ).textContent =
+        todayCount;
+
+
+    document.getElementById(
+        "totalCount"
+    ).textContent =
+        appointments.length;
+
+
+    document.getElementById(
+        "dateCount"
+    ).textContent =
+        uniqueDates.size;
+
 }
-/* ==========================================
-   สร้างรายชื่อผู้เข้าร่วม
-========================================== */
+
+
+/* =====================================================
+   PARTICIPANTS
+===================================================== */
+
 function renderParticipants() {
+
     const container =
-        document.getElementById("participantsList");
+        document.getElementById(
+            "participantsList"
+        );
+
+
     container.innerHTML = "";
-    participants.forEach((name, index) => {
-        const div =
-            document.createElement("div");
-        div.className = "participant";
-        const disabled =
-            index === 0
-                ? "disabled checked"
-                : "";
-        div.innerHTML = `
-            <label>
-                <input
-                    type="checkbox"
-                    value="${escapeHTML(name)}"
-                    ${disabled}
-                >
-                ${escapeHTML(name)}
-            </label>
-        `;
-        container.appendChild(div);
-    });
-}
-/* ==========================================
-   เปิดเพิ่ม
-========================================== */
-function openAddModal() {
-    document.getElementById("appointmentForm")
-        .reset();
-    document.getElementById("editId")
-        .value = "";
-    document.getElementById("modalTitle")
-        .textContent = "เพิ่มนัดหมาย";
-    /* ผอ.ต้องถูกเลือกเสมอ */
-    document.querySelectorAll(
-        "#participantsList input"
-    ).forEach((checkbox, index) => {
-        checkbox.checked =
-            index === 0;
-    });
-    document.getElementById("appointmentModal")
-        .classList.add("show");
-}
-/* ==========================================
-   ปิด
-========================================== */
-function closeModal() {
-    document.getElementById("appointmentModal")
-        .classList.remove("show");
-}
-/* ==========================================
-   เลือกทั้งหมด
-========================================== */
-function selectAllParticipants() {
-    document.querySelectorAll(
-        "#participantsList input"
-    ).forEach(checkbox => {
-        checkbox.checked = true;
-    });
-}
-/* ==========================================
-   ล้างทั้งหมด
-========================================== */
-function clearParticipants() {
-    document.querySelectorAll(
-        "#participantsList input"
-    ).forEach((checkbox, index) => {
-        checkbox.checked =
-            index === 0;
-    });
-}
-/* ==========================================
-   บันทึก
-========================================== */
-document.getElementById("appointmentForm")
-.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const id =
-        document.getElementById("editId").value;
-    let selected =
-        Array.from(
-            document.querySelectorAll(
-                "#participantsList input:checked"
-            )
-        ).map(input => input.value);
-    /* ผอ.ต้องเป็นคนแรก */
-    selected =
-        selected.filter(
-            name => name !== "ผอ.สุรศักดิ์"
-        );
-    selected.unshift("ผอ.สุรศักดิ์");
-    const data = {
-        date:
-            document.getElementById("date").value,
-        time:
-            document.getElementById("time").value,
-        place:
-            document.getElementById("place").value.trim(),
-        subject:
-            document.getElementById("subject").value.trim(),
-        attendees:
-            selected,
-        note:
-            document.getElementById("note").value.trim()
-    };
-    if (id) {
-        const index =
-            appointments.findIndex(
-                item => item.id === id
+
+
+    participants.forEach(
+        (name, index) => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "participant";
+
+
+            div.innerHTML = `
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        value="${escapeHTML(name)}"
+                        ${index === 0
+                            ? "checked disabled"
+                            : ""
+                        }
+                    >
+
+                    ${escapeHTML(name)}
+
+                </label>
+
+            `;
+
+
+            container.appendChild(
+                div
             );
-        if (index !== -1) {
-            appointments[index] = {
-                ...appointments[index],
-                ...data
-            };
+
         }
-    } else {
-        appointments.push({
-            id: createId(),
-            ...data
-        });
-    }
-    saveData();
-    renderTable();
-    closeModal();
-    alert(
-        id
-            ? "แก้ไขนัดหมายเรียบร้อยแล้ว"
-            : "เพิ่มนัดหมายเรียบร้อยแล้ว"
     );
-});
-/* ==========================================
-   แก้ไข
-========================================== */
-function editAppointment(id) {
-    const item =
-        appointments.find(
-            appointment => appointment.id === id
-        );
-    if (!item) return;
-    document.getElementById("editId")
-        .value = item.id;
-    document.getElementById("date")
-        .value = item.date;
-    document.getElementById("time")
-        .value = item.time;
-    document.getElementById("place")
-        .value = item.place;
-    document.getElementById("subject")
-        .value = item.subject;
-    document.getElementById("note")
-        .value = item.note || "";
+
+}
+
+
+/* =====================================================
+   OPEN ADD
+===================================================== */
+
+function openAddModal() {
+
+    document.getElementById(
+        "appointmentForm"
+    ).reset();
+
+
+    document.getElementById(
+        "editId"
+    ).value = "";
+
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "เพิ่มนัดหมาย";
+
+
     document.querySelectorAll(
         "#participantsList input"
-    ).forEach(input => {
-        input.checked =
-            item.attendees.includes(
-                input.value
-            );
-    });
-    /* ผอ.ต้องเลือกเสมอ */
-    document.querySelector(
-        '#participantsList input[value="ผอ.สุรศักดิ์"]'
-    ).checked = true;
-    document.getElementById("modalTitle")
-        .textContent = "แก้ไขนัดหมาย";
-    document.getElementById("appointmentModal")
-        .classList.add("show");
+    ).forEach(
+        (input, index) => {
+
+            input.checked =
+                index === 0;
+
+        }
+    );
+
+
+    document.getElementById(
+        "appointmentModal"
+    ).classList.add("show");
+
 }
-/* ==========================================
-   ลบ
-========================================== */
-function deleteAppointment(id) {
+
+
+/* =====================================================
+   CLOSE
+===================================================== */
+
+function closeModal() {
+
+    document.getElementById(
+        "appointmentModal"
+    ).classList.remove("show");
+
+}
+
+
+/* =====================================================
+   SELECT ALL
+===================================================== */
+
+function selectAllParticipants() {
+
+    document.querySelectorAll(
+        "#participantsList input"
+    ).forEach(
+        input => {
+
+            input.checked = true;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CLEAR
+===================================================== */
+
+function clearParticipants() {
+
+    document.querySelectorAll(
+        "#participantsList input"
+    ).forEach(
+        (input, index) => {
+
+            input.checked =
+                index === 0;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+document.getElementById(
+    "appointmentForm"
+)
+.addEventListener(
+    "submit",
+    function(e) {
+
+        e.preventDefault();
+
+
+        const id =
+            document.getElementById(
+                "editId"
+            ).value;
+
+
+        let selected =
+            Array.from(
+                document.querySelectorAll(
+                    "#participantsList input:checked"
+                )
+            )
+            .map(
+                input =>
+                    input.value
+            );
+
+
+        /* ผอ.เป็นคนแรกเสมอ */
+
+        selected =
+            selected.filter(
+                name =>
+                    name !== "ผอ.สุรศักดิ์"
+            );
+
+
+        selected.unshift(
+            "ผอ.สุรศักดิ์"
+        );
+
+
+        const data = {
+
+            date:
+                document.getElementById(
+                    "date"
+                ).value,
+
+            time:
+                document.getElementById(
+                    "time"
+                ).value,
+
+            place:
+                document.getElementById(
+                    "place"
+                ).value.trim(),
+
+            subject:
+                document.getElementById(
+                    "subject"
+                ).value.trim(),
+
+            attendees:
+                selected,
+
+            note:
+                document.getElementById(
+                    "note"
+                ).value.trim()
+
+        };
+
+
+        if (id) {
+
+            const index =
+                appointments.findIndex(
+                    item =>
+                        item.id === id
+                );
+
+
+            if (index !== -1) {
+
+                appointments[index] = {
+
+                    ...appointments[index],
+
+                    ...data
+
+                };
+
+            }
+
+        }
+
+        else {
+
+            appointments.push({
+
+                id:
+                    createId(),
+
+                ...data
+
+            });
+
+        }
+
+
+        saveData();
+
+        renderTable();
+
+        closeModal();
+
+
+        alert(
+            id
+                ? "แก้ไขนัดหมายเรียบร้อยแล้ว"
+                : "เพิ่มนัดหมายเรียบร้อยแล้ว"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   EDIT
+===================================================== */
+
+function editAppointment(id) {
+
     const item =
         appointments.find(
-            appointment => appointment.id === id
+            appointment =>
+                appointment.id === id
         );
-    if (!item) return;
+
+
+    if (!item) {
+        return;
+    }
+
+
+    document.getElementById(
+        "editId"
+    ).value =
+        item.id;
+
+
+    document.getElementById(
+        "date"
+    ).value =
+        item.date;
+
+
+    document.getElementById(
+        "time"
+    ).value =
+        item.time;
+
+
+    document.getElementById(
+        "place"
+    ).value =
+        item.place;
+
+
+    document.getElementById(
+        "subject"
+    ).value =
+        item.subject;
+
+
+    document.getElementById(
+        "note"
+    ).value =
+        item.note || "";
+
+
+    document.querySelectorAll(
+        "#participantsList input"
+    ).forEach(
+        input => {
+
+            input.checked =
+                item.attendees.includes(
+                    input.value
+                );
+
+        }
+    );
+
+
+    const director =
+        document.querySelector(
+            '#participantsList input[value="ผอ.สุรศักดิ์"]'
+        );
+
+
+    if (director) {
+        director.checked = true;
+    }
+
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "แก้ไขนัดหมาย";
+
+
+    document.getElementById(
+        "appointmentModal"
+    ).classList.add("show");
+
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+function deleteAppointment(id) {
+
+    const item =
+        appointments.find(
+            appointment =>
+                appointment.id === id
+        );
+
+
+    if (!item) {
+        return;
+    }
+
+
     const confirmDelete =
         confirm(
             `ต้องการลบนัดหมาย "${item.subject}" หรือไม่?`
         );
+
+
     if (!confirmDelete) {
         return;
     }
+
+
     appointments =
         appointments.filter(
-            appointment => appointment.id !== id
+            appointment =>
+                appointment.id !== id
         );
+
+
     saveData();
+
     renderTable();
+
 }
-/* ==========================================
-   เริ่มต้น
-========================================== */
-normalizeData();
-renderParticipants();
-showToday();
-renderTable();
-/* ปิด Modal เมื่อคลิกพื้นหลัง */
-document.getElementById("appointmentModal")
-.addEventListener("click", function(e) {
-    if (e.target === this) {
-        closeModal();
+
+
+/* =====================================================
+   CLOSE BY BACKGROUND
+===================================================== */
+
+document.getElementById(
+    "appointmentModal"
+)
+.addEventListener(
+    "click",
+    function(e) {
+
+        if (e.target === this) {
+
+            closeModal();
+
+        }
+
     }
-});
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+normalizeData();
+
+renderParticipants();
+
+showToday();
+
+renderTable();
+
 </script>
+
 </body>
 </html>
