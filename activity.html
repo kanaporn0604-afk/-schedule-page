@@ -1,0 +1,2466 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>บันทึกงานพิธีการและจิตอาสา</title>
+
+<style>
+
+/* =========================================================
+   BASE
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --navy:#061a33;
+    --navy2:#0b3158;
+    --blue:#1261a0;
+    --blue-light:#eaf4ff;
+
+    --green:#16865c;
+    --green-light:#e5f7ef;
+
+    --orange:#d97706;
+    --orange-light:#fff3dc;
+
+    --red:#d9363e;
+    --red-light:#fff0f1;
+
+    --text:#172033;
+    --muted:#718096;
+    --border:#e4eaf1;
+    --bg:#f3f7fb;
+    --white:#ffffff;
+
+    --shadow:0 10px 35px rgba(6,26,51,.08);
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:
+        "Noto Sans Thai",
+        "Leelawadee UI",
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5f8fc 0%,
+            #eef4fa 100%
+        );
+
+    color:var(--text);
+    min-height:100vh;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+    background:
+        linear-gradient(
+            135deg,
+            #06172d 0%,
+            #0b3158 55%,
+            #0f4c7d 100%
+        );
+
+    color:white;
+
+    padding:30px 25px 65px;
+
+    position:relative;
+    overflow:hidden;
+}
+
+.header::before{
+    content:"";
+
+    position:absolute;
+
+    width:420px;
+    height:420px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.035);
+
+    right:-160px;
+    top:-220px;
+}
+
+.header::after{
+    content:"";
+
+    position:absolute;
+
+    width:300px;
+    height:300px;
+
+    border-radius:50%;
+
+    background:
+        rgba(67,166,255,.07);
+
+    left:-130px;
+    bottom:-210px;
+}
+
+.header-inner{
+    max-width:1400px;
+    margin:auto;
+
+    position:relative;
+    z-index:2;
+}
+
+.topbar{
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    gap:20px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:17px;
+}
+
+.brand-icon{
+    width:62px;
+    height:62px;
+
+    border-radius:19px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:29px;
+
+    background:
+        rgba(255,255,255,.11);
+
+    border:
+        1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.18);
+}
+
+.brand h1{
+    font-size:27px;
+    font-weight:800;
+
+    letter-spacing:-.4px;
+}
+
+.brand p{
+    color:#b9cde0;
+    font-size:14px;
+    margin-top:5px;
+}
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    color:white;
+    text-decoration:none;
+
+    padding:11px 17px;
+
+    border-radius:12px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        1px solid rgba(255,255,255,.2);
+
+    font-size:14px;
+
+    transition:.2s;
+}
+
+.back-btn:hover{
+    background:
+        rgba(255,255,255,.16);
+
+    transform:translateY(-1px);
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.container{
+    max-width:1400px;
+
+    margin:-38px auto 50px;
+
+    padding:
+        0 20px;
+
+    position:relative;
+    z-index:5;
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.dashboard{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:16px;
+
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:21px;
+
+    padding:20px;
+
+    box-shadow:var(--shadow);
+
+    display:flex;
+    align-items:center;
+
+    gap:16px;
+}
+
+.stat-icon{
+    width:55px;
+    height:55px;
+
+    border-radius:17px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:24px;
+}
+
+.stat.total .stat-icon{
+    background:var(--blue-light);
+}
+
+.stat.ceremony .stat-icon{
+    background:var(--orange-light);
+}
+
+.stat.volunteer .stat-icon{
+    background:var(--green-light);
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:800;
+
+    color:var(--navy);
+}
+
+.stat-label{
+    font-size:13px;
+    color:var(--muted);
+
+    margin-top:2px;
+}
+
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.main-grid{
+    display:grid;
+
+    grid-template-columns:
+        390px 1fr;
+
+    gap:20px;
+
+    align-items:start;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+    background:white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:22px;
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+}
+
+.card-header{
+    padding:22px 24px;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.card-title{
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    color:var(--navy);
+
+    font-size:18px;
+
+    font-weight:800;
+}
+
+.card-subtitle{
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+}
+
+.card-body{
+    padding:22px 24px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-group{
+    margin-bottom:17px;
+}
+
+label{
+    display:block;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    color:#354052;
+
+    margin-bottom:7px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+
+    border:
+        1px solid #dce3ec;
+
+    border-radius:11px;
+
+    padding:12px 13px;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+    color:var(--text);
+
+    background:white;
+
+    outline:none;
+
+    transition:.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#3284c5;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(50,132,197,.10);
+}
+
+textarea{
+    min-height:90px;
+
+    resize:vertical;
+}
+
+.form-row{
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:12px;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.btn{
+    border:0;
+
+    border-radius:11px;
+
+    padding:12px 17px;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.btn-primary{
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0d4d83,
+            #1769aa
+        );
+
+    box-shadow:
+        0 7px 18px
+        rgba(13,77,131,.22);
+}
+
+.btn-primary:hover{
+    transform:translateY(-1px);
+}
+
+.btn-secondary{
+    background:#eef2f6;
+
+    color:#44505f;
+}
+
+.form-buttons{
+    display:flex;
+
+    gap:9px;
+
+    margin-top:5px;
+}
+
+.form-buttons .btn{
+    flex:1;
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+.filter-box{
+    padding:17px 20px;
+
+    background:#fbfcfe;
+
+    border-bottom:
+        1px solid var(--border);
+
+    display:grid;
+
+    grid-template-columns:
+        1.5fr 1fr 1fr;
+
+    gap:10px;
+}
+
+
+/* =========================================================
+   ACTIVITY LIST
+========================================================= */
+
+.activity-list{
+    padding:20px;
+}
+
+.activity-item{
+    background:white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:18px;
+
+    margin-bottom:13px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:.2s;
+}
+
+.activity-item:hover{
+    transform:translateY(-2px);
+
+    border-color:#d4e0ec;
+
+    box-shadow:
+        0 8px 25px
+        rgba(7,26,51,.07);
+}
+
+.activity-item::before{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:0;
+    bottom:0;
+
+    width:5px;
+}
+
+.activity-item.ceremony::before{
+    background:var(--orange);
+}
+
+.activity-item.volunteer::before{
+    background:var(--green);
+}
+
+
+/* =========================================================
+   ACTIVITY TOP
+========================================================= */
+
+.activity-top{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:15px;
+}
+
+.activity-title{
+    color:var(--navy);
+
+    font-size:17px;
+
+    font-weight:800;
+
+    line-height:1.5;
+}
+
+.activity-type{
+    display:inline-flex;
+
+    align-items:center;
+
+    padding:5px 11px;
+
+    border-radius:30px;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    white-space:nowrap;
+}
+
+.type-ceremony{
+    color:#9a5a00;
+
+    background:#fff3d9;
+}
+
+.type-volunteer{
+    color:#087747;
+
+    background:#e3f7ee;
+}
+
+
+/* =========================================================
+   ACTIVITY INFO
+========================================================= */
+
+.activity-info{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:10px;
+
+    margin-top:15px;
+}
+
+.info{
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:8px;
+
+    color:#586576;
+
+    font-size:13px;
+
+    line-height:1.5;
+}
+
+.info-icon{
+    width:25px;
+
+    text-align:center;
+
+    flex-shrink:0;
+}
+
+.info strong{
+    color:#3d4a5a;
+}
+
+
+/* =========================================================
+   NOTE
+========================================================= */
+
+.activity-note{
+    margin-top:13px;
+
+    padding:10px 12px;
+
+    background:#f6f8fb;
+
+    border-radius:10px;
+
+    color:#667085;
+
+    font-size:13px;
+
+    line-height:1.6;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.activity-actions{
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+    margin-top:15px;
+
+    padding-top:12px;
+
+    border-top:
+        1px solid #edf0f4;
+}
+
+.action-btn{
+    border:0;
+
+    padding:7px 12px;
+
+    border-radius:8px;
+
+    font-family:inherit;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.edit-btn{
+    color:#1769aa;
+
+    background:#edf5ff;
+}
+
+.delete-btn{
+    color:#c82333;
+
+    background:#fff0f1;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty{
+    padding:60px 20px;
+
+    text-align:center;
+
+    color:var(--muted);
+}
+
+.empty-icon{
+    font-size:48px;
+
+    opacity:.7;
+
+    margin-bottom:12px;
+}
+
+.empty-title{
+    color:#526071;
+
+    font-weight:800;
+
+    margin-bottom:4px;
+}
+
+.empty-text{
+    font-size:13px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+    text-align:center;
+
+    color:#8a96a6;
+
+    font-size:12px;
+
+    padding:
+        0 20px 30px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1100px){
+
+    .main-grid{
+        grid-template-columns:1fr;
+    }
+
+    .dashboard{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:700px){
+
+    .header{
+        padding:
+            22px 16px 50px;
+    }
+
+    .topbar{
+        align-items:flex-start;
+    }
+
+    .brand h1{
+        font-size:20px;
+    }
+
+    .brand p{
+        font-size:12px;
+    }
+
+    .brand-icon{
+        width:48px;
+        height:48px;
+
+        border-radius:14px;
+
+        font-size:22px;
+    }
+
+    .back-btn{
+        padding:9px 12px;
+
+        font-size:12px;
+    }
+
+    .container{
+        padding:0 12px;
+    }
+
+    .dashboard{
+        grid-template-columns:
+            1fr 1fr;
+
+        gap:10px;
+    }
+
+    .stat{
+        padding:14px;
+
+        gap:10px;
+
+        border-radius:16px;
+    }
+
+    .stat-icon{
+        width:42px;
+        height:42px;
+
+        border-radius:12px;
+
+        font-size:18px;
+    }
+
+    .stat-number{
+        font-size:21px;
+    }
+
+    .stat-label{
+        font-size:11px;
+    }
+
+    .card{
+        border-radius:18px;
+    }
+
+    .card-header,
+    .card-body{
+        padding:18px;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+
+        gap:0;
+    }
+
+    .filter-box{
+        grid-template-columns:1fr;
+
+        padding:14px;
+    }
+
+    .activity-list{
+        padding:14px;
+    }
+
+    .activity-top{
+        flex-direction:column;
+    }
+
+    .activity-info{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:430px){
+
+    .dashboard{
+        grid-template-columns:1fr;
+    }
+
+    .topbar{
+        flex-direction:column;
+    }
+
+    .back-btn{
+        align-self:flex-start;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
+<header class="header">
+
+    <div class="header-inner">
+
+        <div class="topbar">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    📋
+                </div>
+
+                <div>
+
+                    <h1>
+                        บันทึกงานพิธีการและจิตอาสา
+                    </h1>
+
+                    <p>
+                        ระบบบันทึกและติดตามการเข้าร่วมงานพิธีการและกิจกรรมจิตอาสา
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="index.html"
+                class="back-btn"
+            >
+                ← หน้าหลัก
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
+
+<main class="container">
+
+
+<!-- =======================================================
+     DASHBOARD
+======================================================= -->
+
+<section class="dashboard">
+
+
+    <!-- TOTAL -->
+
+    <div class="stat total">
+
+        <div class="stat-icon">
+            📋
+        </div>
+
+        <div>
+
+            <div
+                class="stat-number"
+                id="totalCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                งานทั้งหมด
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CEREMONY -->
+
+    <div class="stat ceremony">
+
+        <div class="stat-icon">
+            🏛️
+        </div>
+
+        <div>
+
+            <div
+                class="stat-number"
+                id="ceremonyCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                งานพิธีการ
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- VOLUNTEER -->
+
+    <div class="stat volunteer">
+
+        <div class="stat-icon">
+            🤝
+        </div>
+
+        <div>
+
+            <div
+                class="stat-number"
+                id="volunteerCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                งานจิตอาสา
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =======================================================
+     MAIN GRID
+======================================================= -->
+
+<section class="main-grid">
+
+
+<!-- =======================================================
+     ADD FORM
+======================================================= -->
+
+<div class="card">
+
+
+    <div class="card-header">
+
+        <div class="card-title">
+
+            <span>
+                ➕
+            </span>
+
+            <span id="formTitle">
+                เพิ่มงาน
+            </span>
+
+        </div>
+
+        <div class="card-subtitle">
+            บันทึกข้อมูลการเข้าร่วมงานพิธีการและจิตอาสา
+        </div>
+
+    </div>
+
+
+
+    <div class="card-body">
+
+
+        <form id="activityForm">
+
+
+            <input
+                type="hidden"
+                id="editId"
+            >
+
+
+            <!-- DATE / TIME -->
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label>
+                        📅 วันที่
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        ⏰ เวลา
+                    </label>
+
+                    <input
+                        type="time"
+                        id="time"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- TYPE -->
+
+            <div class="form-group">
+
+                <label>
+                    📂 ประเภทงาน
+                </label>
+
+                <select
+                    id="type"
+                    required
+                >
+
+                    <option value="">
+                        -- เลือกประเภทงาน --
+                    </option>
+
+                    <option value="ceremony">
+                        🏛️ งานพิธีการ
+                    </option>
+
+                    <option value="volunteer">
+                        🤝 งานจิตอาสา
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- PERSON -->
+
+            <div class="form-group">
+
+                <label>
+                    👤 ผู้เข้าร่วม
+                </label>
+
+                <select
+                    id="person"
+                    required
+                >
+
+                    <option value="">
+                        -- เลือกผู้เข้าร่วม --
+                    </option>
+
+
+                    <optgroup label="ข้าราชการ">
+
+                        <option>
+                            คุณอารีรัตน์
+                        </option>
+
+                        <option>
+                            คุณธีรพล
+                        </option>
+
+                        <option>
+                            คุณสุนิสา
+                        </option>
+
+                        <option>
+                            คุณธนดล
+                        </option>
+
+                        <option>
+                            คุณวิทวัฒน์
+                        </option>
+
+                        <option>
+                            คุณธัชพงษ์
+                        </option>
+
+                        <option>
+                            คุณสุวรรณนี
+                        </option>
+
+                        <option>
+                            คุณทนงศักดิ์
+                        </option>
+
+                    </optgroup>
+
+
+                    <optgroup label="พนักงานจ้างเหมาบริการ">
+
+                        <option>
+                            คุณสุรพงษ์
+                        </option>
+
+                        <option>
+                            คุณวิทวัฒท์
+                        </option>
+
+                        <option>
+                            คุณผกามาศ
+                        </option>
+
+                        <option>
+                            คุณชลธิชา
+                        </option>
+
+                        <option>
+                            คุณพัชราภรณ์
+                        </option>
+
+                        <option>
+                            คุณฐนาพร
+                        </option>
+
+                    </optgroup>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- TITLE -->
+
+            <div class="form-group">
+
+                <label>
+                    📝 ชื่องาน
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="เช่น พิธีถวายราชสักการะ..."
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- LOCATION -->
+
+            <div class="form-group">
+
+                <label>
+                    📍 สถานที่
+                </label>
+
+                <input
+                    type="text"
+                    id="location"
+                    placeholder="ระบุสถานที่จัดงาน"
+                >
+
+            </div>
+
+
+
+            <!-- NOTE -->
+
+            <div class="form-group">
+
+                <label>
+                    💬 หมายเหตุ
+                </label>
+
+                <textarea
+                    id="note"
+                    placeholder="รายละเอียดเพิ่มเติม..."
+                ></textarea>
+
+            </div>
+
+
+
+            <!-- BUTTON -->
+
+            <div class="form-buttons">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    id="saveBtn"
+                >
+                    💾 บันทึกงาน
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="cancelBtn"
+                    style="display:none"
+                >
+                    ยกเลิก
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =======================================================
+     ACTIVITY LIST
+======================================================= -->
+
+<div class="card">
+
+
+    <div class="card-header">
+
+        <div class="card-title">
+
+            <span>
+                📚
+            </span>
+
+            รายการงาน
+        </div>
+
+        <div class="card-subtitle">
+
+            ค้นหาและตรวจสอบประวัติการเข้าร่วมงาน
+
+        </div>
+
+    </div>
+
+
+
+    <!-- FILTER -->
+
+    <div class="filter-box">
+
+
+        <input
+            type="text"
+            id="search"
+            placeholder="🔎 ค้นหาชื่องาน / สถานที่ / ชื่อผู้เข้าร่วม..."
+        >
+
+
+        <select id="filterPerson">
+
+            <option value="">
+                👤 ทุกคน
+            </option>
+
+
+            <optgroup label="ข้าราชการ">
+
+                <option>
+                    คุณอารีรัตน์
+                </option>
+
+                <option>
+                    คุณธีรพล
+                </option>
+
+                <option>
+                    คุณสุนิสา
+                </option>
+
+                <option>
+                    คุณธนดล
+                </option>
+
+                <option>
+                    คุณวิทวัฒน์
+                </option>
+
+                <option>
+                    คุณธัชพงษ์
+                </option>
+
+                <option>
+                    คุณสุวรรณนี
+                </option>
+
+                <option>
+                    คุณทนงศักดิ์
+                </option>
+
+            </optgroup>
+
+
+            <optgroup label="พนักงานจ้างเหมาบริการ">
+
+                <option>
+                    คุณสุรพงษ์
+                </option>
+
+                <option>
+                    คุณวิทวัฒท์
+                </option>
+
+                <option>
+                    คุณผกามาศ
+                </option>
+
+                <option>
+                    คุณชลธิชา
+                </option>
+
+                <option>
+                    คุณพัชราภรณ์
+                </option>
+
+                <option>
+                    คุณฐนาพร
+                </option>
+
+            </optgroup>
+
+        </select>
+
+
+        <select id="filterType">
+
+            <option value="">
+                📂 ทุกประเภท
+            </option>
+
+            <option value="ceremony">
+                🏛️ งานพิธีการ
+            </option>
+
+            <option value="volunteer">
+                🤝 งานจิตอาสา
+            </option>
+
+        </select>
+
+
+    </div>
+
+
+
+    <!-- LIST -->
+
+    <div
+        id="activityList"
+        class="activity-list"
+    ></div>
+
+
+</div>
+
+
+</section>
+
+</main>
+
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
+<footer class="footer">
+
+    ระบบบันทึกงานพิธีการและจิตอาสา
+
+</footer>
+
+
+
+<script>
+
+/* =========================================================
+   LOAD DATA
+========================================================= */
+
+let activities =
+    JSON.parse(
+        localStorage.getItem(
+            "governmentActivities"
+        )
+    ) || [];
+
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const form =
+    document.getElementById(
+        "activityForm"
+    );
+
+const editId =
+    document.getElementById(
+        "editId"
+    );
+
+const dateInput =
+    document.getElementById(
+        "date"
+    );
+
+const timeInput =
+    document.getElementById(
+        "time"
+    );
+
+const typeInput =
+    document.getElementById(
+        "type"
+    );
+
+const personInput =
+    document.getElementById(
+        "person"
+    );
+
+const titleInput =
+    document.getElementById(
+        "title"
+    );
+
+const locationInput =
+    document.getElementById(
+        "location"
+    );
+
+const noteInput =
+    document.getElementById(
+        "note"
+    );
+
+const saveBtn =
+    document.getElementById(
+        "saveBtn"
+    );
+
+const cancelBtn =
+    document.getElementById(
+        "cancelBtn"
+    );
+
+const activityList =
+    document.getElementById(
+        "activityList"
+    );
+
+const searchInput =
+    document.getElementById(
+        "search"
+    );
+
+const filterPerson =
+    document.getElementById(
+        "filterPerson"
+    );
+
+const filterType =
+    document.getElementById(
+        "filterType"
+    );
+
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+function saveData(){
+
+    localStorage.setItem(
+        "governmentActivities",
+        JSON.stringify(
+            activities
+        )
+    );
+
+}
+
+
+
+/* =========================================================
+   FORM SUBMIT
+========================================================= */
+
+form.addEventListener(
+    "submit",
+    function(e){
+
+        e.preventDefault();
+
+
+        const data = {
+
+            id:
+                editId.value
+                    ?
+                    Number(
+                        editId.value
+                    )
+                    :
+                    Date.now(),
+
+            date:
+                dateInput.value,
+
+            time:
+                timeInput.value,
+
+            type:
+                typeInput.value,
+
+            person:
+                personInput.value,
+
+            title:
+                titleInput.value.trim(),
+
+            location:
+                locationInput.value.trim(),
+
+            note:
+                noteInput.value.trim()
+
+        };
+
+
+
+        /* EDIT */
+
+        if(editId.value){
+
+            const index =
+                activities.findIndex(
+                    item =>
+                        item.id ===
+                        Number(
+                            editId.value
+                        )
+                );
+
+
+            if(index !== -1){
+
+                activities[index] =
+                    data;
+
+            }
+
+        }
+
+        /* ADD */
+
+        else{
+
+            activities.push(
+                data
+            );
+
+        }
+
+
+
+        saveData();
+
+        renderActivities();
+
+        updateDashboard();
+
+        resetForm();
+
+    }
+);
+
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderActivities(){
+
+    const search =
+        searchInput.value
+            .trim()
+            .toLowerCase();
+
+    const person =
+        filterPerson.value;
+
+    const type =
+        filterType.value;
+
+
+
+    let filtered =
+        activities.filter(
+            item => {
+
+                const matchSearch =
+                    !search ||
+
+                    item.title
+                        .toLowerCase()
+                        .includes(
+                            search
+                        ) ||
+
+                    item.location
+                        .toLowerCase()
+                        .includes(
+                            search
+                        ) ||
+
+                    item.person
+                        .toLowerCase()
+                        .includes(
+                            search
+                        );
+
+
+                const matchPerson =
+                    !person ||
+                    item.person ===
+                    person;
+
+
+                const matchType =
+                    !type ||
+                    item.type ===
+                    type;
+
+
+                return (
+                    matchSearch &&
+                    matchPerson &&
+                    matchType
+                );
+
+            }
+        );
+
+
+
+    /* SORT NEWEST */
+
+    filtered.sort(
+        (a,b) => {
+
+            const dateA =
+                new Date(
+                    `${a.date}T${a.time || "00:00"}`
+                );
+
+            const dateB =
+                new Date(
+                    `${b.date}T${b.time || "00:00"}`
+                );
+
+            return dateB - dateA;
+
+        }
+    );
+
+
+
+    /* EMPTY */
+
+    if(
+        filtered.length === 0
+    ){
+
+        activityList.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📭
+                </div>
+
+                <div class="empty-title">
+                    ไม่พบรายการงาน
+                </div>
+
+                <div class="empty-text">
+                    ลองเปลี่ยนคำค้นหา
+                    หรือเพิ่มงานใหม่
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    activityList.innerHTML =
+        filtered
+            .map(
+                createActivityHTML
+            )
+            .join("");
+
+}
+
+
+
+/* =========================================================
+   CREATE CARD
+========================================================= */
+
+function createActivityHTML(item){
+
+    let typeText = "";
+
+    let typeClass = "";
+
+
+
+    if(
+        item.type ===
+        "ceremony"
+    ){
+
+        typeText =
+            "🏛️ งานพิธีการ";
+
+        typeClass =
+            "ceremony";
+
+    }
+
+    else{
+
+        typeText =
+            "🤝 งานจิตอาสา";
+
+        typeClass =
+            "volunteer";
+
+    }
+
+
+
+    return `
+
+        <div
+            class="activity-item ${typeClass}"
+        >
+
+
+            <div class="activity-top">
+
+
+                <div class="activity-title">
+
+                    ${escapeHTML(
+                        item.title
+                    )}
+
+                </div>
+
+
+                <div
+                    class="
+                        activity-type
+                        type-${typeClass}
+                    "
+                >
+
+                    ${typeText}
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="activity-info">
+
+
+                <!-- DATE -->
+
+                <div class="info">
+
+                    <div class="info-icon">
+                        📅
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            วันที่
+                        </strong>
+
+                        <br>
+
+                        ${formatDate(
+                            item.date
+                        )}
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TIME -->
+
+                <div class="info">
+
+                    <div class="info-icon">
+                        ⏰
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            เวลา
+                        </strong>
+
+                        <br>
+
+                        ${
+                            item.time
+                                ?
+                                escapeHTML(
+                                    item.time
+                                ) + " น."
+                                :
+                                "-"
+                        }
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PERSON -->
+
+                <div class="info">
+
+                    <div class="info-icon">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            ผู้เข้าร่วม
+                        </strong>
+
+                        <br>
+
+                        ${escapeHTML(
+                            item.person
+                        )}
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- LOCATION -->
+
+                <div class="info">
+
+                    <div class="info-icon">
+                        📍
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            สถานที่
+                        </strong>
+
+                        <br>
+
+                        ${
+                            item.location
+                                ?
+                                escapeHTML(
+                                    item.location
+                                )
+                                :
+                                "-"
+                        }
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            ${
+                item.note
+                    ?
+                    `
+                    <div class="activity-note">
+
+                        💬
+                        ${escapeHTML(
+                            item.note
+                        )}
+
+                    </div>
+                    `
+                    :
+                    ""
+            }
+
+
+
+            <div class="activity-actions">
+
+
+                <button
+                    class="action-btn edit-btn"
+                    onclick="editActivity(
+                        ${item.id}
+                    )"
+                >
+
+                    ✏️ แก้ไข
+
+                </button>
+
+
+
+                <button
+                    class="action-btn delete-btn"
+                    onclick="deleteActivity(
+                        ${item.id}
+                    )"
+                >
+
+                    🗑️ ลบ
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    `;
+
+}
+
+
+
+/* =========================================================
+   EDIT
+========================================================= */
+
+function editActivity(id){
+
+    const item =
+        activities.find(
+            activity =>
+                activity.id === id
+        );
+
+
+    if(!item){
+        return;
+    }
+
+
+
+    editId.value =
+        item.id;
+
+    dateInput.value =
+        item.date;
+
+    timeInput.value =
+        item.time;
+
+    typeInput.value =
+        item.type;
+
+    personInput.value =
+        item.person;
+
+    titleInput.value =
+        item.title;
+
+    locationInput.value =
+        item.location;
+
+    noteInput.value =
+        item.note;
+
+
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "แก้ไขงาน";
+
+
+
+    saveBtn.textContent =
+        "💾 บันทึกการแก้ไข";
+
+
+
+    cancelBtn.style.display =
+        "block";
+
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetForm(){
+
+    form.reset();
+
+    editId.value = "";
+
+
+
+    document.getElementById(
+        "formTitle"
+    ).textContent =
+        "เพิ่มงาน";
+
+
+
+    saveBtn.textContent =
+        "💾 บันทึกงาน";
+
+
+
+    cancelBtn.style.display =
+        "none";
+
+}
+
+
+
+cancelBtn.addEventListener(
+    "click",
+    resetForm
+);
+
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+function deleteActivity(id){
+
+    const item =
+        activities.find(
+            activity =>
+                activity.id === id
+        );
+
+
+    if(!item){
+        return;
+    }
+
+
+
+    const confirmed =
+        confirm(
+            "ต้องการลบรายการนี้หรือไม่?\n\n" +
+
+            "งาน: " +
+            item.title +
+
+            "\nผู้เข้าร่วม: " +
+            item.person
+        );
+
+
+
+    if(!confirmed){
+        return;
+    }
+
+
+
+    activities =
+        activities.filter(
+            activity =>
+                activity.id !== id
+        );
+
+
+
+    saveData();
+
+    renderActivities();
+
+    updateDashboard();
+
+}
+
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function updateDashboard(){
+
+    document.getElementById(
+        "totalCount"
+    ).textContent =
+        activities.length;
+
+
+
+    document.getElementById(
+        "ceremonyCount"
+    ).textContent =
+        activities.filter(
+            item =>
+                item.type ===
+                "ceremony"
+        ).length;
+
+
+
+    document.getElementById(
+        "volunteerCount"
+    ).textContent =
+        activities.filter(
+            item =>
+                item.type ===
+                "volunteer"
+        ).length;
+
+}
+
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatDate(date){
+
+    if(!date){
+        return "-";
+    }
+
+
+    const d =
+        new Date(
+            date +
+            "T00:00:00"
+        );
+
+
+    const day =
+        String(
+            d.getDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const month =
+        String(
+            d.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    const year =
+        d.getFullYear() +
+        543;
+
+
+    return (
+        day +
+        "/" +
+        month +
+        "/" +
+        year
+    );
+
+}
+
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(text){
+
+    if(!text){
+        return "";
+    }
+
+
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+searchInput.addEventListener(
+    "input",
+    renderActivities
+);
+
+
+filterPerson.addEventListener(
+    "change",
+    renderActivities
+);
+
+
+filterType.addEventListener(
+    "change",
+    renderActivities
+);
+
+
+
+/* =========================================================
+   INITIAL
+========================================================= */
+
+updateDashboard();
+
+renderActivities();
+
+</script>
+
+</body>
+</html>
